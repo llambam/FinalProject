@@ -1,0 +1,68 @@
+package com.htp.domain.to;
+
+import com.htp.domain.enums.Role;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+public class UserRoles implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
+    private Long userId;
+    private Role roleName;
+
+    public UserRoles() {
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Role getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(Role roleName) {
+        this.roleName = roleName;
+    }
+
+    public UserRoles(Long userId, Role roleName) {
+        this.userId = userId;
+        this.roleName = roleName;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRoles{" +
+                "userId=" + userId +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRoles userRoles = (UserRoles) o;
+        return Objects.equals(userId, userRoles.userId) &&
+                Objects.equals(roleName, userRoles.roleName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, roleName);
+    }
+
+
+}
