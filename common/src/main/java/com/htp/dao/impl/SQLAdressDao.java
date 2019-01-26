@@ -27,7 +27,7 @@ public class SQLAdressDao implements AdressDao {
     private static final String SELECT_BY_ID = "SELECT * FROM adress WHERE phone_book_id = ?";
     private static final String SELECT_ALL_ID = "SELECT phone_book_id FROM adress";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM adress WHERE user_id = ?";
-    private static final String CREATE_ADRESS = "INSERT INTO adress (user_id, city, district, street, house_number, floor, apartment_number) VALUES (?,?,?,?,?,?,?)";
+    private static final String CREATE_ADRESS = "INSERT INTO adress (city, district, street, house_number, floor, apartment_number) VALUES (?,?,?,?,?,?)";
     private static final String UPDATE_ADRESS = "UPDATE adress SET user_id=?, city=?, district=?, street=?, house_number=?, floor=?, apartment_number=?  WHERE phone_book_id=? LIMIT 1";
 
 
@@ -126,18 +126,17 @@ public class SQLAdressDao implements AdressDao {
     }
 
     @Override
-    public int create(Adress entity) throws DaoException {
+    public Long create(Adress entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_ADRESS)) {
-            statement.setLong(1, entity.getUserID());
-            statement.setString(2, entity.getCity());
-            statement.setString(3, entity.getDistrict());
-            statement.setString(4, entity.getStreet());
-            statement.setInt(5, entity.getHouseNumber());
-            statement.setInt(6, entity.getFloor());
-            statement.setInt(7, entity.getApartmentNumber());
+            statement.setString(1, entity.getCity());
+            statement.setString(2, entity.getDistrict());
+            statement.setString(3, entity.getStreet());
+            statement.setInt(4, entity.getHouseNumber());
+            statement.setInt(5, entity.getFloor());
+            statement.setInt(6, entity.getApartmentNumber());
             ResultSet set = statement.executeQuery();
-            return 0;
+            return entity.getPhoneBookID();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }

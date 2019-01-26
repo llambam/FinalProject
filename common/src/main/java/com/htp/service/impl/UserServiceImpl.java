@@ -19,7 +19,8 @@ public class UserServiceImpl implements UserService {
     private static final DaoFactory factory = DaoFactory.getDaoFactory();
     private static final ValidatorInterface<User> VALIDATE = LoginValidator.getInstance();
 
-    private UserServiceImpl(){}
+    private UserServiceImpl() {
+    }
 
     public static UserService getInstance() {
         return SingletonHolder.instance;
@@ -36,8 +37,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long create(User entity) throws ServiceException {
-        return null;
+    public User create(User entity) throws ServiceException {
+        try {
+            UserDao userDao = factory.getUserDao();
+            VALIDATE.isValid(entity);
+            String password = entity.getPassword();
+            String passwordMD5 = DigestUtils.md5Hex(password);
+            entity.setPassword(passwordMD5);
+            boolean check = userDao.checkUser(entity.getLogin(), entity.getPassword());
+            if (!check) {
+                Long id = userDao.create(entity);
+                return entity;
+            }else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return entity;
     }
 
     @Override
@@ -47,6 +64,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Method check login and password information from some user and get user object if authorization success
+     *
      * @param user object, that provides authorization operation
      * @return null if client not exists in system; user object if authorization execute correctly
      * @throws ServiceException
@@ -56,7 +74,7 @@ public class UserServiceImpl implements UserService {
         try {
             UserDao userDao = factory.getUserDao();
 
-            if(VALIDATE.isValid(user)) {
+            if (VALIDATE.isValid(user)) {
 
                 String password = user.getPassword();
                 String passwordMD5 = DigestUtils.md5Hex(password);
@@ -75,7 +93,6 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Service Exception", e);
         }
     }
-
 
 
 }

@@ -1,4 +1,9 @@
 package com.htp.service;
 
-public interface UserFavoriteNumberService {
+import com.htp.domain.to.UserFavoriteNumber;
+
+public interface UserFavoriteNumberService extends GenericServiceInterface<UserFavoriteNumber, Long> {
+
+
+
 }

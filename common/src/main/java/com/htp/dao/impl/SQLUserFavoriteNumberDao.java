@@ -50,7 +50,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
                 UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber();
                 userFavoriteNumber.setUserID(set.getLong( USER_ID));
                 userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                userFavoriteNumber.setDate(set.getDate(DATE));
+                userFavoriteNumber.setDate(set.getString(DATE));
                 return userFavoriteNumber;
             } else {
                 return null;
@@ -89,7 +89,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
                 UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber();
                 userFavoriteNumber.setUserID(set.getLong( USER_ID));
                 userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                userFavoriteNumber.setDate(set.getDate(DATE));
+                userFavoriteNumber.setDate(set.getString(DATE));
                 return userFavoriteNumber;
             } else {
                 return null;
@@ -112,13 +112,13 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
     }
 
     @Override
-    public int create(UserFavoriteNumber entity) throws DaoException {
+    public Long create(UserFavoriteNumber entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_FAVORITE_NUMBER)) {
             statement.setLong(1, entity.getPhoneBookID());
             statement.setString(2, String.valueOf(entity.getDate()));
             ResultSet set = statement.executeQuery();
-            return 0;
+            return entity.getPhoneBookID();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }

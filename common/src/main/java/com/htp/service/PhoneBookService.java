@@ -1,4 +1,9 @@
 package com.htp.service;
 
-public interface PhoneBookService {
+import com.htp.domain.to.PhoneBook;
+
+public interface PhoneBookService extends GenericServiceInterface<PhoneBook, Long> {
+
+
+
 }

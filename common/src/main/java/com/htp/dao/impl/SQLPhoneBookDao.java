@@ -52,9 +52,9 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setPhoneBookId(set.getLong(PHONE_BOOK_ID));
                 phoneBook.setName(set.getString(NAME));
                 phoneBook.setSurname(set.getString(SURNAME));
-                phoneBook.setTelephone(set.getInt(TELEPHONE));
+                phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getDate(CREATION_DATE));
+                phoneBook.setCreationDate(set.getString(CREATION_DATE));
                 list.add(phoneBook);
             }
             return list;
@@ -75,9 +75,9 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setPhoneBookId(set.getLong(PHONE_BOOK_ID));
                 phoneBook.setName(set.getString(NAME));
                 phoneBook.setSurname(set.getString(SURNAME));
-                phoneBook.setTelephone(set.getInt(TELEPHONE));
+                phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getDate(CREATION_DATE));
+                phoneBook.setCreationDate(set.getString(CREATION_DATE));
                 list.add(phoneBook);
             }
             return list;
@@ -135,9 +135,9 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setPhoneBookId(set.getLong(PHONE_BOOK_ID));
                 phoneBook.setName(set.getString(NAME));
                 phoneBook.setSurname(set.getString(SURNAME));
-                phoneBook.setTelephone(set.getInt(TELEPHONE));
+                phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getDate(CREATION_DATE));
+                phoneBook.setCreationDate(set.getString(CREATION_DATE));
                 return phoneBook;
             } else {
                 return null;
@@ -161,16 +161,16 @@ public class SQLPhoneBookDao implements PhoneBookDao {
     }
 
     @Override
-    public int create(PhoneBook entity) throws DaoException {
+    public Long create(PhoneBook entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_PHONE_BOOK)) {
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getSurname());
-            statement.setInt(3, entity.getTelephone());
+            statement.setString(3, entity.getTelephone());
             statement.setString(4, entity.geteMail());
-            statement.setDate(5, (Date) entity.getCreationDate());
+            statement.setString(5, entity.getCreationDate());
             ResultSet set = statement.executeQuery();
-            return 0;
+            return entity.getPhoneBookId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }
@@ -182,9 +182,9 @@ public class SQLPhoneBookDao implements PhoneBookDao {
              PreparedStatement statement = connect.prepareStatement(UPDATE_PHONE_BOOK)) {
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getSurname());
-            statement.setInt(3, entity.getTelephone());
+            statement.setString(3, entity.getTelephone());
             statement.setString(4, entity.geteMail());
-            statement.setDate(5, (Date) entity.getCreationDate());
+            statement.setString(5, entity.getCreationDate());
             ResultSet set = statement.executeQuery();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {

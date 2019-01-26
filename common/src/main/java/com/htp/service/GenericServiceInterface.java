@@ -18,7 +18,7 @@ public interface GenericServiceInterface<T, K> {
      * @return {@link T} object, that method can create
      * @throws ServiceException
      */
-    K create(T entity) throws ServiceException;
+    T create(T entity) throws ServiceException;
 
     /* Method provides viewing all information and package this information in view object
      *

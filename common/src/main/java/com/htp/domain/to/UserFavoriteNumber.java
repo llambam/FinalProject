@@ -7,12 +7,12 @@ import java.util.Objects;
 public class UserFavoriteNumber implements Serializable {
     private Long userID;
     private Long phoneBookID;
-    private Date date;
+    private String date;
 
     public UserFavoriteNumber() {
     }
 
-    public UserFavoriteNumber(Long userID, Long phoneBookID, Date date) {
+    public UserFavoriteNumber(Long userID, Long phoneBookID, String date) {
         this.userID = userID;
         this.phoneBookID = phoneBookID;
         this.date = date;
@@ -34,11 +34,11 @@ public class UserFavoriteNumber implements Serializable {
         this.phoneBookID = phoneBookID;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

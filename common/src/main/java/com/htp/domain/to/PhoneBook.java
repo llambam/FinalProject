@@ -9,11 +9,11 @@ public class PhoneBook implements Serializable {
     private Long phoneBookId;
     private String name;
     private String surname;
-    private int telephone;
+    private String telephone;
     private String eMail;
-    private Date creationDate;
+    private String creationDate;
 
-    public PhoneBook(Long phoneBookId, String name, String surname, int telephone, String eMail, Date creationDate) {
+    public PhoneBook(Long phoneBookId, String name, String surname, String telephone, String eMail, String creationDate) {
         this.phoneBookId = phoneBookId;
         this.name = name;
         this.surname = surname;
@@ -49,11 +49,11 @@ public class PhoneBook implements Serializable {
         this.surname = surname;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -65,11 +65,11 @@ public class PhoneBook implements Serializable {
         this.eMail = eMail;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 

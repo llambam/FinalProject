@@ -20,7 +20,7 @@ public class SQLUserRolesDao implements UserRolesDao {
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String DELETE_BY_ID = "DELETE FROM user_roles WHERE user_id = ?";
-    private static final String CREATE_ROLE = "INSERT INTO user_roles (role) VALUES (?)";
+    private static final String CREATE_ROLE = "INSERT INTO user_roles (user_id, role) VALUES (?,?)";
     private static final String UPDATE_ROLE = "UPDATE user_roles SET role=? WHERE user_id=? LIMIT 1";
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE user_id = ?";
     private static final String SELECT_ALL_ID = "SELECT user_id FROM user_roles";
@@ -91,12 +91,13 @@ public class SQLUserRolesDao implements UserRolesDao {
     }
 
     @Override
-    public int create(UserRoles entity) throws DaoException {
+    public Long create(UserRoles entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_ROLE)) {
-            statement.setString(1, String.valueOf(entity.getRoleName()));
+            statement.setLong(1, entity.getUserId());
+            statement.setString(2, String.valueOf(entity.getRoleName()));
             ResultSet set = statement.executeQuery();
-            return 0;
+            return entity.getUserId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }

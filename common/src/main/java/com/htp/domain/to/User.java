@@ -12,17 +12,17 @@ public class User implements Serializable {
     private String surname;
     private String login;
     private String password;
-    private int telephone;
+    private String telephone;
     private String email;
-    private boolean blocked;
-    private Date registrationDate;
+    private int blocked;
+    private String registrationDate;
 
 
-    public User(){
+    public User() {
 
     }
 
-    public User(Long userId, String userName, String surname, String login, String password, int telephone, String email, boolean blocked, Date registrationDate) {
+    public User(Long userId, String userName, String surname, String login, String password, String telephone, String email, int blocked, String registrationDate) {
         this.userId = userId;
         this.userName = userName;
         this.surname = surname;
@@ -33,6 +33,7 @@ public class User implements Serializable {
         this.blocked = blocked;
         this.registrationDate = registrationDate;
     }
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -78,11 +79,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -94,19 +95,19 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isBlocked() {
+    public int getBlocked() {
         return blocked;
     }
 
-    public void setBlocked(boolean blocked) {
+    public void setBlocked(int blocked) {
         this.blocked = blocked;
     }
 
-    public Date getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 

@@ -59,9 +59,9 @@ public class SQLUserDao implements UserDao {
                 user.setSurname(set.getString(SURNAME));
                 user.setLogin(set.getString(LOGIN));
                 user.setPassword(set.getString(PASSWORD));
-                user.setTelephone(set.getInt(TELEPHONE));
+                user.setTelephone(set.getString(TELEPHONE));
                 user.setEmail(set.getString(EMAIL));
-                user.setBlocked(set.getBoolean(BLOCK));
+                user.setBlocked(set.getInt(BLOCK));
 
                 return user;
             } else {
@@ -123,10 +123,10 @@ public class SQLUserDao implements UserDao {
                 user.setSurname(set.getString(SURNAME));
                 user.setLogin(set.getString(LOGIN));
                 user.setPassword(set.getString(PASSWORD));
-                user.setTelephone(set.getInt(TELEPHONE));
+                user.setTelephone(set.getString(TELEPHONE));
                 user.setEmail(set.getString(EMAIL));
-                user.setBlocked(set.getBoolean(BLOCK));
-                user.setRegistrationDate(set.getDate(REGISRATION_DATE));
+                user.setBlocked(set.getInt(BLOCK));
+                user.setRegistrationDate(set.getString(REGISRATION_DATE));
 
                 return user;
             } else {
@@ -150,18 +150,18 @@ public class SQLUserDao implements UserDao {
     }
 
     @Override
-    public int create(User entity) throws DaoException {
+    public Long create(User entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_USER)) {
             statement.setString(1, entity.getUserName());
             statement.setString(2, entity.getSurname());
             statement.setString(3, entity.getLogin());
             statement.setString(4, entity.getPassword());
-            statement.setInt(5, entity.getTelephone());
+            statement.setString(5, entity.getTelephone());
             statement.setString(6, entity.getEmail());
-            statement.setDate(7, (Date) entity.getRegistrationDate());
+            statement.setString(7, entity.getRegistrationDate());
             ResultSet set = statement.executeQuery();
-            return 0;
+            return entity.getUserId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }
@@ -176,7 +176,7 @@ public class SQLUserDao implements UserDao {
             statement.setString(2, entity.getSurname());
             statement.setString(3, entity.getLogin());
             statement.setString(4, entity.getPassword());
-            statement.setInt(5, entity.getTelephone());
+            statement.setString(5, entity.getTelephone());
             statement.setString(6, entity.getEmail());
             statement.setLong(7, entity.getUserId());
             ResultSet set = statement.executeQuery();

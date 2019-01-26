@@ -1,4 +1,9 @@
 package com.htp.service;
 
-public interface AdressService {
+import com.htp.domain.to.Adress;
+
+public interface AdressService extends GenericServiceInterface<Adress, Long> {
+
+
+
 }
