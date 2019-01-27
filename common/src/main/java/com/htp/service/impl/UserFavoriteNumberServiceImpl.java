@@ -45,6 +45,22 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
     }
 
     @Override
+    public UserFavoriteNumber update(UserFavoriteNumber entity) throws ServiceException {
+        try {
+            UserFavoriteNumberDao userFavoriteNumberDao= factory.getUserFavoriteNumberDao();
+            if (VALIDATE.isValid(entity)) {
+                Long id = userFavoriteNumberDao.update(entity);
+                return entity;
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<UserFavoriteNumber> loadAll() throws ServiceException {
         return null;
     }

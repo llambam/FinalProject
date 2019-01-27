@@ -7,11 +7,9 @@ import com.htp.service.UserService;
 import com.htp.service.impl.UserServiceImpl;
 import com.htp.service.validator.ValidationException;
 
-import javax.naming.Name;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 /* Class is designed for the registration of a new client
  */
@@ -70,7 +68,7 @@ public class RegistrationCommand implements CommandInterface {
             String telephone = request.getParameter(TELEPHONE);
             String email = request.getParameter(EMAIL);
             int isBlocked = Integer.parseInt(request.getParameter(BLOCK));
-//            Date registrationDate = request.getParameter(REGISRATION_DATE);
+            String registrationDate = request.getParameter(REGISRATION_DATE);
 
             String login = request.getParameter(LOGIN);
             String password = request.getParameter(PASSWORD);
@@ -83,7 +81,7 @@ public class RegistrationCommand implements CommandInterface {
             user.setTelephone(telephone);
             user.setEmail(email);
             user.setBlocked(isBlocked);
-//            user.setRegistrationDate(registrationDate);
+            user.setRegistrationDate(registrationDate);
 
             User resultClient = SERVICE.create(user);
             if (resultClient == null) {

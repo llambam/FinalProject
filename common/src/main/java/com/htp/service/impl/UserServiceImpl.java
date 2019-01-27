@@ -55,6 +55,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User update(User entity) throws ServiceException {
+        try {
+            UserDao userDao = factory.getUserDao();
+            if (VALIDATE_USER.isValid(entity) & VALIDATE_LOGIN.isValid(entity)) {
+                boolean check = UserPasswordHash(entity, userDao);
+                if (!check & userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
+                    Long id = userDao.update(entity);
+                    return entity;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<User> loadAll() throws ServiceException {
         return null;
     }
@@ -84,6 +105,29 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("Service Exception", e);
         }
+    }
+
+    @Override
+    public Integer block(User user) throws ServiceException {
+       try {
+           UserDao userDao = factory.getUserDao();
+
+           int block = user.getBlocked();
+           if (block == 0) {
+               user.setBlocked(1);
+               userDao.update(user);
+           return 1;//возвращает новое(текущее) значение
+           }
+           if(block==1){
+               user.setBlocked(0);
+               userDao.update(user);
+               return 0;
+           }else {
+               return null;
+           }
+       }catch (DaoException e){
+           throw new ServiceException("Service Exception", e);
+       }
     }
 
 

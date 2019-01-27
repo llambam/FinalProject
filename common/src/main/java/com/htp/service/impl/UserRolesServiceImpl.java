@@ -45,6 +45,22 @@ public class UserRolesServiceImpl implements UserRolesService {
         }
     }
 
+    @Override
+    public UserRoles update(UserRoles entity) throws ServiceException {
+        try {
+            UserRolesDao userRolesDao = factory.getUserRolesDao();
+            if (VALIDATE.isValid(entity)) {
+                Long id = userRolesDao.update(entity);
+                return entity;
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     @Override
     public List<UserRoles> loadAll() throws ServiceException {

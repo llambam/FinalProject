@@ -30,7 +30,7 @@ public class SQLUserDao implements UserDao {
     private static final String SELECT_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
     private static final String SELECT_BY_TELEPHONE= "SELECT * FROM user WHERE telephone = ?";
     private static final String CREATE_USER = "INSERT INTO user (name, surname, login, password, telephone, email, registration_date) VALUES (?,?,?,?,?,?,?)";
-    private static final String UPDATE_USER = "UPDATE user SET name=?, surname=?, login=?, password=?, telephone=?, email=? WHERE user_id=? LIMIT 1";
+    private static final String UPDATE_USER = "UPDATE user SET name=?, surname=?, login=?, password=?, telephone=?, email=?, block=? WHERE user_id=? LIMIT 1";
     private static final String SELECT_ALL_ID = "SELECT * FROM user";
 
 
@@ -214,7 +214,8 @@ public class SQLUserDao implements UserDao {
             statement.setString(4, entity.getPassword());
             statement.setString(5, entity.getTelephone());
             statement.setString(6, entity.getEmail());
-            statement.setLong(7, entity.getUserId());
+            statement.setInt(7, entity.getBlocked());
+            statement.setLong(8, entity.getUserId());
             int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {

@@ -49,6 +49,26 @@ public class PhoneBookServiceImpl implements PhoneBookService {
     }
 
     @Override
+    public PhoneBook update(PhoneBook entity) throws ServiceException {
+        try {
+            PhoneBookDao phoneBookDao = factory.getPhoneBookDao();
+            if (VALIDATE.isValid(entity)) {
+                if (phoneBookDao.checkUserTelephoneUQ(entity.getTelephone())) {
+                    Long id = phoneBookDao.update(entity);
+                    return entity;
+                }else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<PhoneBook> loadAll() throws ServiceException {
         return null;
     }
