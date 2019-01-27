@@ -67,9 +67,4 @@ public class PhoneBookServiceImpl implements PhoneBookService {
             return null;
         }
     }
-
-    @Override
-    public List<PhoneBook> loadAll() throws ServiceException {
-        return null;
-    }
 }

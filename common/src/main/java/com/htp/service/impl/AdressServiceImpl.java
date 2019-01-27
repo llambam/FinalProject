@@ -60,8 +60,4 @@ public class AdressServiceImpl implements AdressService {
         }
     }
 
-    @Override
-    public List<Adress> loadAll() throws ServiceException {
-        return null;
-    }
 }

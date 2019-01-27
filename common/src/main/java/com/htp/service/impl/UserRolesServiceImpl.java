@@ -60,10 +60,4 @@ public class UserRolesServiceImpl implements UserRolesService {
             return null;
         }
     }
-
-
-    @Override
-    public List<UserRoles> loadAll() throws ServiceException {
-        return null;
-    }
 }

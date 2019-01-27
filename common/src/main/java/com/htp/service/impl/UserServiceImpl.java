@@ -75,11 +75,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public List<User> loadAll() throws ServiceException {
-        return null;
-    }
-
     /**
      * Method check login and password information from some user and get user object if authorization success
      *

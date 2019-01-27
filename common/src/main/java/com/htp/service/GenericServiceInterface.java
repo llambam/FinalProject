@@ -27,5 +27,5 @@ public interface GenericServiceInterface<T, K> {
      * @return {@link T} object necessary for view all objects
      * @throws ServiceException
      */
-    List<T> loadAll() throws ServiceException;
+//    List<T> loadAll() throws ServiceException;
 }

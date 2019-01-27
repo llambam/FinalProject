@@ -59,9 +59,4 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
             return null;
         }
     }
-
-    @Override
-    public List<UserFavoriteNumber> loadAll() throws ServiceException {
-        return null;
-    }
 }
