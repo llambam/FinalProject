@@ -15,8 +15,8 @@ import java.util.List;
 
 public class SQLUserRolesDao implements UserRolesDao {
 
-    private static final String USER_ID="user_id";
-    private static final String USER_ROLE="role";
+    private static final String USER_ID = "user_id";
+    private static final String USER_ROLE = "role";
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String DELETE_BY_ID = "DELETE FROM user_roles WHERE user_id = ?";
@@ -39,13 +39,14 @@ public class SQLUserRolesDao implements UserRolesDao {
 
     @Override
     public List<UserRoles> findAll() throws DaoException {
-        try (Connection connect=pool.getConnection();
-             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)){
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)) {
             ResultSet set = statement.executeQuery();
             ArrayList<UserRoles> list = new ArrayList<>();
             while (set.next()) {
-                UserRoles userRoles= new UserRoles();
+                UserRoles userRoles = new UserRoles();
                 userRoles.setUserId(set.getLong(USER_ID));
+                userRoles.setRoleName(set.getString(UPDATE_ROLE));
                 list.add(userRoles);
             }
             return list;
@@ -57,25 +58,22 @@ public class SQLUserRolesDao implements UserRolesDao {
 
     @Override
     public UserRoles findById(Long id) throws DaoException {
-//        try (Connection connect = pool.getConnection();
-//             PreparedStatement statement = connect.prepareStatement(SELECT_BY_ID)) {
-//            statement.setLong(1, id);
-//            ResultSet set = statement.executeQuery();
-//
-//            if (set.next()) {
-//                UserRoles userRoles = new UserRoles();
-//                userRoles.setUserId(set.getLong(USER_ID));
-//                userRoles.setRoleName(set.getString(UPDATE_ROLE));
-//
-//                return userRoles;
-//            } else {
-//                return null;
-//            }
-//        } catch (SQLException | ConnectionPoolException e) {
-//            throw new DaoException("Exception", e);
-//        }
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet set = statement.executeQuery();
 
-        return null;//!!!!!!!!!!!!!!!
+            if (set.next()) {
+                UserRoles userRoles = new UserRoles();
+                userRoles.setUserId(set.getLong(USER_ID));
+                userRoles.setRoleName(set.getString(UPDATE_ROLE));
+                return userRoles;
+            } else {
+                return null;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception", e);
+        }
     }
 
     @Override
@@ -96,7 +94,7 @@ public class SQLUserRolesDao implements UserRolesDao {
              PreparedStatement statement = connect.prepareStatement(CREATE_ROLE)) {
             statement.setLong(1, entity.getUserId());
             statement.setString(2, String.valueOf(entity.getRoleName()));
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return entity.getUserId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
@@ -109,7 +107,7 @@ public class SQLUserRolesDao implements UserRolesDao {
              PreparedStatement statement = connect.prepareStatement(UPDATE_ROLE)) {
             statement.setString(1, String.valueOf(entity.getRoleName()));
             statement.setLong(2, entity.getUserId());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);

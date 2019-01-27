@@ -19,5 +19,5 @@ public interface PhoneBookDao extends GenericDAO<PhoneBook, Long> {
      * @throws DaoException
      */
     boolean checkPhoneBook(String surname, int telephone) throws DaoException;
-
+    boolean checkUserTelephoneUQ(String telephone) throws DaoException;
 }

@@ -33,12 +33,12 @@ public class UserValidator implements ValidatorInterface<User> {
         surnameValid = entity.getSurname().matches(REGEX_NAME_AND_SURNAME);
         telephoneValid = entity.getTelephone().length() == TELEPHONE_LENGTH;
         eMailValid = entity.getEmail().matches(REGEX_EMAIL);
-        block=entity.getBlocked()==0|entity.getBlocked()==1;
+        block = entity.getBlocked() == 0 | entity.getBlocked() == 1;
         dateValid = entity.getRegistrationDate().matches(REGEX_DATE_FORMAT);
 
-        if(nameValid==surnameValid==telephoneValid==eMailValid==block==dateValid==true){
+        if (nameValid == surnameValid == telephoneValid == eMailValid == block == dateValid == true) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

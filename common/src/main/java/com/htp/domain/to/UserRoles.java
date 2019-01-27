@@ -1,7 +1,5 @@
 package com.htp.domain.to;
 
-import com.htp.domain.enums.Role;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,7 +9,7 @@ public class UserRoles implements Serializable {
 
 
     private Long userId;
-    private Role roleName;
+    private String roleName;
 
     public UserRoles() {
     }
@@ -29,15 +27,15 @@ public class UserRoles implements Serializable {
         return serialVersionUID;
     }
 
-    public Role getRoleName() {
+    public String getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(Role roleName) {
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
-    public UserRoles(Long userId, Role roleName) {
+    public UserRoles(Long userId, String roleName) {
         this.userId = userId;
         this.roleName = roleName;
     }

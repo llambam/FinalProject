@@ -27,6 +27,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
     private static final String SELECT_BY_TELEPHONE = "SELECT * FROM phone_book WHERE telephone LIKE %?%";
     private static final String SELECT_BY_SURNAME = "SELECT * FROM phone_book WHERE surname LIKE %?%";
     private static final String SELECT_BY_TELEPHONE_AND_SURNAME = "SELECT * FROM phone_book WHERE surname =? telephone=?";
+    private static final String SELECT_BY_TELEPHONE_UQ= "SELECT * FROM adress WHERE telephone = ?";
 
     public SQLPhoneBookDao() {
     }
@@ -39,7 +40,22 @@ public class SQLPhoneBookDao implements PhoneBookDao {
         private static final PhoneBookDao instance = new SQLPhoneBookDao();
     }
 
-
+    @Override
+    public boolean checkUserTelephoneUQ(String telephone) throws DaoException {
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_BY_TELEPHONE_UQ)) {
+            statement.setString(1, telephone);
+            ResultSet set = statement.executeQuery();
+            if (set != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     @Override
     public List<PhoneBook> getPhoneBookTelephone(int telephone) throws DaoException {
         try (Connection connect = pool.getConnection();
@@ -113,6 +129,11 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             while (set.next()) {
                 PhoneBook phoneBook = new PhoneBook();
                 phoneBook.setPhoneBookId(set.getLong(PHONE_BOOK_ID));
+                phoneBook.setName(set.getString(NAME));
+                phoneBook.setSurname(set.getString(SURNAME));
+                phoneBook.setTelephone(set.getString(TELEPHONE));
+                phoneBook.seteMail(set.getString(EMAIL));
+                phoneBook.setCreationDate(set.getString(CREATION_DATE));
                 list.add(phoneBook);
             }
             return list;
@@ -169,7 +190,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             statement.setString(3, entity.getTelephone());
             statement.setString(4, entity.geteMail());
             statement.setString(5, entity.getCreationDate());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return entity.getPhoneBookId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
@@ -185,7 +206,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             statement.setString(3, entity.getTelephone());
             statement.setString(4, entity.geteMail());
             statement.setString(5, entity.getCreationDate());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);

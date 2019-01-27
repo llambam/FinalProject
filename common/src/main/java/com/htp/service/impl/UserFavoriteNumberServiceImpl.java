@@ -1,9 +1,13 @@
 package com.htp.service.impl;
 
+import com.htp.dao.UserFavoriteNumberDao;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.UserFavoriteNumber;
+import com.htp.exception.DaoException;
 import com.htp.exception.ServiceException;
 import com.htp.service.UserFavoriteNumberService;
+import com.htp.service.validator.UserFavoriteNumberValidatir;
+import com.htp.service.validator.ValidatorInterface;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
     public static UserFavoriteNumberService getInstance() {
         return SingletonHolder.instance;
     }
+    private static final ValidatorInterface<UserFavoriteNumber> VALIDATE= UserFavoriteNumberValidatir.getInstance();
 
     private static class SingletonHolder {
 
@@ -25,7 +30,18 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
 
     @Override
     public UserFavoriteNumber create(UserFavoriteNumber entity) throws ServiceException {
-        return null;
+        try {
+            UserFavoriteNumberDao userFavoriteNumberDao= factory.getUserFavoriteNumberDao();
+            if (VALIDATE.isValid(entity)) {
+                Long id = userFavoriteNumberDao.create(entity);
+                return entity;
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -16,8 +16,5 @@ public interface UserService extends GenericServiceInterface <User, Long> {
     User authorization(User user) throws ServiceException;
 
 
-    User loadById(Long userId) throws ServiceException, NoSuchEntityException;
-
-
 
 }

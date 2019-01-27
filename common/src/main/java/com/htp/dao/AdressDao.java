@@ -8,5 +8,4 @@ public interface AdressDao extends GenericDAO<Adress, Long> {
 
     Adress foundByUserID(Long user_id) throws DaoException;
 
-
 }

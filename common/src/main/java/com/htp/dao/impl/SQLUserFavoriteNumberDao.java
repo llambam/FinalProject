@@ -25,7 +25,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
     private static final String SELECT_BY_PHONE_ID = "SELECT * FROM user_favorite_number WHERE phone_book_id = ?";
     private static final String CREATE_FAVORITE_NUMBER = "INSERT INTO user_favorite_number (phone_book_id, date) VALUES (?,?)";
     private static final String UPDATE_USER_FAV_NUMBER = "UPDATE user_favorite_number SET phone_book_id=?, date=?  WHERE user_id=? LIMIT 1";
-    private static final String SELECT_ALL_ID = "SELECT user_id FROM user_favorite_number";
+    private static final String SELECT_ALL_ID = "SELECT * FROM user_favorite_number";
 
     public SQLUserFavoriteNumberDao() {
     }
@@ -68,7 +68,9 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
             ArrayList<UserFavoriteNumber> list = new ArrayList<>();
             while (set.next()) {
                 UserFavoriteNumber userFavoriteNumber= new UserFavoriteNumber();
-                userFavoriteNumber.setUserID(set.getLong(USER_ID));
+                userFavoriteNumber.setUserID(set.getLong( USER_ID));
+                userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
+                userFavoriteNumber.setDate(set.getString(DATE));
                 list.add(userFavoriteNumber);
             }
             return list;
@@ -117,7 +119,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
              PreparedStatement statement = connect.prepareStatement(CREATE_FAVORITE_NUMBER)) {
             statement.setLong(1, entity.getPhoneBookID());
             statement.setString(2, String.valueOf(entity.getDate()));
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return entity.getPhoneBookID();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
@@ -131,7 +133,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
             statement.setLong(1, entity.getPhoneBookID());
             statement.setString(2, String.valueOf(entity.getDate()));
             statement.setLong(3, entity.getUserID());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);

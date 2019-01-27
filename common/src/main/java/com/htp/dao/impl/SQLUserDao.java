@@ -27,9 +27,11 @@ public class SQLUserDao implements UserDao {
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE user_id = ?";
     private static final String DELETE_BY_ID = "DELETE FROM user WHERE user_id = ?";
     private static final String SELECT_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? and password = ?";
+    private static final String SELECT_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
+    private static final String SELECT_BY_TELEPHONE= "SELECT * FROM user WHERE telephone = ?";
     private static final String CREATE_USER = "INSERT INTO user (name, surname, login, password, telephone, email, registration_date) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_USER = "UPDATE user SET name=?, surname=?, login=?, password=?, telephone=?, email=? WHERE user_id=? LIMIT 1";
-    private static final String SELECT_ALL_ID = "SELECT user_id FROM user";
+    private static final String SELECT_ALL_ID = "SELECT * FROM user";
 
 
     private SQLUserDao() {
@@ -91,6 +93,32 @@ public class SQLUserDao implements UserDao {
     }
 
     @Override
+    public boolean checkUserloginUQ(String login) throws DaoException {
+        return checkUQ(login, SELECT_BY_LOGIN);
+    }
+
+    @Override
+    public boolean checkUserTelephoneUQ(String telephone) throws DaoException {
+        return checkUQ(telephone, SELECT_BY_TELEPHONE);
+    }
+
+    private boolean checkUQ(String checkParametr, String sqlReqest) {
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(sqlReqest)) {
+            statement.setString(1, checkParametr);
+            ResultSet set = statement.executeQuery();
+            if (set != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public List<User> findAll() throws DaoException {
         try (Connection connect=pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)){
@@ -99,6 +127,14 @@ public class SQLUserDao implements UserDao {
             while (set.next()) {
                 User user= new User();
                 user.setUserId(set.getLong(USER_ID));
+                user.setUserName(set.getString(NAME));
+                user.setSurname(set.getString(SURNAME));
+                user.setLogin(set.getString(LOGIN));
+                user.setPassword(set.getString(PASSWORD));
+                user.setTelephone(set.getString(TELEPHONE));
+                user.setEmail(set.getString(EMAIL));
+                user.setBlocked(set.getInt(BLOCK));
+                user.setRegistrationDate(set.getString(REGISRATION_DATE));
                 list.add(user);
             }
             return list;
@@ -160,7 +196,7 @@ public class SQLUserDao implements UserDao {
             statement.setString(5, entity.getTelephone());
             statement.setString(6, entity.getEmail());
             statement.setString(7, entity.getRegistrationDate());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return entity.getUserId();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
@@ -179,7 +215,7 @@ public class SQLUserDao implements UserDao {
             statement.setString(5, entity.getTelephone());
             statement.setString(6, entity.getEmail());
             statement.setLong(7, entity.getUserId());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);

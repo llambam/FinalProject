@@ -45,29 +45,9 @@ public class SQLAdressDao implements AdressDao {
 
     @Override
     public Adress foundByUserID(Long user_id) throws DaoException {
-        try (Connection connect = pool.getConnection();
-             PreparedStatement statement = connect.prepareStatement(SELECT_BY_USER_ID)) {
-            statement.setLong(1, user_id);
-            ResultSet set = statement.executeQuery();
-
-            if (set.next()) {
-                Adress adress = new Adress();
-                adress.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                adress.setUserID(set.getLong(USER_ID));
-                adress.setCity(set.getString(CITY));
-                adress.setDistrict(set.getString(DISTRICT));
-                adress.setStreet(set.getString(STREET));
-                adress.setHouseNumber(set.getInt(HOUSE_NUMBER));
-                adress.setFloor(set.getInt(FLOOR));
-                adress.setApartmentNumber(set.getInt(APARTMENT_NUMBER));
-                return adress;
-            } else {
-                return null;
-            }
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DaoException("Exception", e);
-        }
+        return getAdress(user_id, SELECT_BY_USER_ID);
     }
+
 
     @Override
     public List<Adress> findAll() throws DaoException, ConnectionPoolException {
@@ -76,9 +56,7 @@ public class SQLAdressDao implements AdressDao {
             ResultSet set = statement.executeQuery();
             ArrayList<Adress> list = new ArrayList<>();
             while (set.next()) {
-                Adress adress = new Adress();
-                adress.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                list.add(adress);
+                list.add(fillingAdress(set));
             }
             return list;
         } catch (SQLException e) {
@@ -89,28 +67,7 @@ public class SQLAdressDao implements AdressDao {
 
     @Override
     public Adress findById(Long id) throws DaoException {
-        try (Connection connect = pool.getConnection();
-             PreparedStatement statement = connect.prepareStatement(SELECT_BY_ID)) {
-            statement.setLong(1, id);
-            ResultSet set = statement.executeQuery();
-
-            if (set.next()) {
-                Adress adress = new Adress();
-                adress.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                adress.setUserID(set.getLong(USER_ID));
-                adress.setCity(set.getString(CITY));
-                adress.setDistrict(set.getString(DISTRICT));
-                adress.setStreet(set.getString(STREET));
-                adress.setHouseNumber(set.getInt(HOUSE_NUMBER));
-                adress.setFloor(set.getInt(FLOOR));
-                adress.setApartmentNumber(set.getInt(APARTMENT_NUMBER));
-                return adress;
-            } else {
-                return null;
-            }
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DaoException("Exception", e);
-        }
+        return getAdress(id, SELECT_BY_ID);
     }
 
     @Override
@@ -135,7 +92,7 @@ public class SQLAdressDao implements AdressDao {
             statement.setInt(4, entity.getHouseNumber());
             statement.setInt(5, entity.getFloor());
             statement.setInt(6, entity.getApartmentNumber());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return entity.getPhoneBookID();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
@@ -154,12 +111,38 @@ public class SQLAdressDao implements AdressDao {
             statement.setLong(6, entity.getFloor());
             statement.setLong(7, entity.getApartmentNumber());
             statement.setLong(8, entity.getPhoneBookID());
-            ResultSet set = statement.executeQuery();
+            int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }
     }
 
+    private Adress fillingAdress(ResultSet set) throws SQLException {
+        Adress adress = new Adress();
+        adress.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
+        adress.setUserID(set.getLong(USER_ID));
+        adress.setCity(set.getString(CITY));
+        adress.setDistrict(set.getString(DISTRICT));
+        adress.setStreet(set.getString(STREET));
+        adress.setHouseNumber(set.getInt(HOUSE_NUMBER));
+        adress.setFloor(set.getInt(FLOOR));
+        adress.setApartmentNumber(set.getInt(APARTMENT_NUMBER));
+        return adress;
+    }
 
+    private Adress getAdress(Long user_id, String selectByUserId) throws DaoException {
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(selectByUserId)) {
+            statement.setLong(1, user_id);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                return fillingAdress(set);
+            } else {
+                return null;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception", e);
+        }
+    }
 }
