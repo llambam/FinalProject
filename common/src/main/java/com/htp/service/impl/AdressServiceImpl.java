@@ -9,8 +9,6 @@ import com.htp.service.AdressService;
 import com.htp.service.validator.AdressValidator;
 import com.htp.service.validator.ValidatorInterface;
 
-import java.util.List;
-
 public class AdressServiceImpl implements AdressService {
 
     private static final DaoFactory factory = DaoFactory.getDaoFactory();

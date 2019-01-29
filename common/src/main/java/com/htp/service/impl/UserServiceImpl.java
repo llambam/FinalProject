@@ -1,19 +1,16 @@
 package com.htp.service.impl;
 
-import com.htp.exception.NoSuchEntityException;
-import com.htp.exception.ServiceException;
-import com.htp.service.validator.LoginValidator;
-import com.htp.service.validator.UserValidator;
-import com.htp.service.validator.ValidationException;
-import com.htp.service.validator.ValidatorInterface;
 import com.htp.dao.UserDao;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;
+import com.htp.exception.ServiceException;
 import com.htp.service.UserService;
+import com.htp.service.validator.LoginValidator;
+import com.htp.service.validator.UserValidator;
+import com.htp.service.validator.ValidationException;
+import com.htp.service.validator.ValidatorInterface;
 import org.apache.commons.codec.digest.DigestUtils;
-
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
 

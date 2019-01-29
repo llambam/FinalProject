@@ -2,11 +2,14 @@ package com.htp.dao.impl;
 
 import com.htp.dao.PhoneBookDao;
 import com.htp.dao.connection_pool.ConnectionPool;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.domain.to.PhoneBook;
 import com.htp.exception.DaoException;
-import com.htp.dao.connection_pool.ConnectionPoolException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

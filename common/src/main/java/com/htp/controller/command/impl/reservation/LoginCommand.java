@@ -2,7 +2,6 @@ package com.htp.controller.command.impl.reservation;
 
 import com.htp.controller.command.util.CommandException;
 import com.htp.controller.command.util.CommandInterface;
-import com.htp.dao.UserRolesDao;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;

@@ -9,8 +9,6 @@ import com.htp.service.PhoneBookService;
 import com.htp.service.validator.PhoneBookValidatir;
 import com.htp.service.validator.ValidatorInterface;
 
-import java.util.List;
-
 public class PhoneBookServiceImpl implements PhoneBookService {
 
     private static final DaoFactory factory = DaoFactory.getDaoFactory();

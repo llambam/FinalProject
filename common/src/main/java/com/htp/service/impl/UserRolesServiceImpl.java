@@ -9,8 +9,6 @@ import com.htp.service.UserRolesService;
 import com.htp.service.validator.UserRolesValidator;
 import com.htp.service.validator.ValidatorInterface;
 
-import java.util.List;
-
 public class UserRolesServiceImpl implements UserRolesService {
 
 

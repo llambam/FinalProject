@@ -1,8 +1,7 @@
 package com.htp.service;
 
-import com.htp.exception.NoSuchEntityException;
-import com.htp.exception.ServiceException;
 import com.htp.domain.to.User;
+import com.htp.exception.ServiceException;
 
 public interface UserService extends GenericServiceInterface <User, Long> {
 

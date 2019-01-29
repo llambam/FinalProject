@@ -3,8 +3,6 @@ package com.htp.service;
 
 import com.htp.exception.ServiceException;
 
-import java.util.List;
-
 /* Basic Service interface with template parameters.
  * @param <T> generic type of objects passed to methods and can be returned
  * @param <K> generic type of objects which will serve as a view object.

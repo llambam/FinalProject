@@ -9,8 +9,6 @@ import com.htp.service.UserFavoriteNumberService;
 import com.htp.service.validator.UserFavoriteNumberValidatir;
 import com.htp.service.validator.ValidatorInterface;
 
-import java.util.List;
-
 public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService {
 
     private static final DaoFactory factory = DaoFactory.getDaoFactory();

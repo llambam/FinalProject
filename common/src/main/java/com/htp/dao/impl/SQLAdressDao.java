@@ -6,7 +6,10 @@ import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.domain.to.Adress;
 import com.htp.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
