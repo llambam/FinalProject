@@ -31,7 +31,7 @@ public class UserValidator implements ValidatorInterface<User> {
 
         nameValid = entity.getUserName().matches(REGEX_NAME_AND_SURNAME);
         surnameValid = entity.getSurname().matches(REGEX_NAME_AND_SURNAME);
-        telephoneValid = entity.getTelephone().length() == TELEPHONE_LENGTH;
+        telephoneValid = entity.getTelephone().length() <= TELEPHONE_LENGTH_MAX & entity.getTelephone().length() >= TELEPHONE_LENGTH_MIN;
         eMailValid = entity.getEmail().matches(REGEX_EMAIL);
         block = entity.getBlocked() == 0 | entity.getBlocked() == 1;
         dateValid = entity.getRegistrationDate().matches(REGEX_DATE_FORMAT);

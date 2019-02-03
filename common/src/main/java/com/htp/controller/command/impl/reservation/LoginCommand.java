@@ -1,7 +1,10 @@
 package com.htp.controller.command.impl.reservation;
 
+import com.htp.controller.command.PagePath;
 import com.htp.controller.command.util.CommandException;
 import com.htp.controller.command.util.CommandInterface;
+import com.htp.dao.connection_pool.ConnectionPool;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;
@@ -14,9 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.htp.domain.to.UserRolesNamesInterface.ADMIN;
+import static com.htp.domain.to.UserRolesNamesInterface.USER;
+
+
 /* Class is designed for the log in in system as administrator or client
  */
-public class LoginCommand implements CommandInterface {
+public class LoginCommand implements CommandInterface, PagePath {
 
     private static final UserService SERVICE = UserServiceImpl.getInstance();
     //    private static final PagesConfigManager MANAGER = PagesConfigManager.getInstance();
@@ -57,7 +64,13 @@ public class LoginCommand implements CommandInterface {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-//        PagePath page;
+        try {
+            ConnectionPool.getInstance().init();
+        } catch (ConnectionPoolException e) {
+            e.printStackTrace();
+        }
+
+        String page = null;
         try {
             User tempUser = new User();
             tempUser.setLogin(request.getParameter(LOGIN));
@@ -71,15 +84,15 @@ public class LoginCommand implements CommandInterface {
             if (user == null) {
                 request.setAttribute(ERROR_FLAG, ERROR_FLAG_VALUE);
                 request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);//  одна из возможных реализаций отображений эррор мэссэджа у клиента
-//                page = PagePath.INDEX;
+                page = INDEX;
             } else {
-                if (factory.getUserRolesDao().findById(user.getUserId()).equals("ADMIN")) {
+                if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(ADMIN)) {
                     session.setAttribute(ADMIN_ROLE, user);
-//                    page = PagePath.ADMIN;
+                    page = ADMIN_USERS;
                 }
-                if (factory.getUserRolesDao().findById(user.getUserId()).equals("USER")) {
+                if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(USER)) {
                     session.setAttribute(CLIENT_ROLE, user);
-//                    page = PagePath.RESULT;
+                    page = MAIN_TABLE;
                 }
             }
             request.setAttribute(ACTION, REDIRECT_ACTION_ATTRIBUTE);
@@ -87,13 +100,12 @@ public class LoginCommand implements CommandInterface {
         } catch (ValidationException e) {
             request.setAttribute(ERROR_FLAG, ERROR_FLAG_VALUE);
             request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);
-//            page = PagePath.INDEX;
+            page = INDEX;
         } catch (ServiceException e) {
             throw new CommandException("Command Exception", e);
         } catch (DaoException e) {
             e.printStackTrace();
         }
-//        return MANAGER.getProperty(page.toString());
-        return null;
+        return page;
     }
 }

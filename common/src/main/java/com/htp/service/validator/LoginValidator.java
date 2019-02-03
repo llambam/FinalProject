@@ -22,8 +22,7 @@ public class LoginValidator implements ValidatorInterface<User> {
 
 
 
-    private static final Pattern patternLogin = Pattern.compile(REGEX_LOGIN);
-    private static final Pattern patternPassword = Pattern.compile(REGEX_PASSWORD);
+
 
     /* Validates fields of parameter object for correct values.
      *
@@ -35,12 +34,13 @@ public class LoginValidator implements ValidatorInterface<User> {
      */
     @Override
     public boolean isValid(User user) {
-        String idRoom = String.valueOf(user.getLogin());
-        String cost = String.valueOf(user.getPassword());
-
-        Matcher matcherLogin = patternLogin.matcher(idRoom);
-        Matcher matcherPassword = patternPassword.matcher(cost);
-
-        return matcherLogin.matches() & matcherPassword.matches();
+//        boolean loginValid = user.getUserName().matches(REGEX_LOGIN);
+//        boolean passwordValid = user.getSurname().matches(REGEX_PASSWORD);
+//        if (loginValid==passwordValid==true){
+//            return true;
+//        }else {
+//            return false;
+//        }
+        return true;
     }
 }

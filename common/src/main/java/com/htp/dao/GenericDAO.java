@@ -45,7 +45,7 @@ public interface GenericDAO <T, K> {
      * @return unique number created record
      * @throws DaoException
      */
-	Long create(T entity) throws DaoException;
+	Long create(T entity) throws DaoException, ConnectionPoolException;
 
     /**
      * Method update one of record in database with actually information

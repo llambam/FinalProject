@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" id="finish_button" value="Reg me!">
+                <input type="submit" id="finish_button" value="eto main!">
             </form>
         </div>
     </div>

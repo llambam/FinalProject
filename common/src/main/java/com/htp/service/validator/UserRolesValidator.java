@@ -2,6 +2,8 @@ package com.htp.service.validator;
 
 import com.htp.domain.to.UserRoles;
 
+import static com.htp.domain.to.UserRolesNamesInterface.*;
+
 public class UserRolesValidator implements ValidatorInterface<UserRoles> {
 
     private static final ValidatorInterface<UserRoles> instance = new UserRolesValidator();
@@ -15,10 +17,7 @@ public class UserRolesValidator implements ValidatorInterface<UserRoles> {
 
     @Override
     public boolean isValid(UserRoles entity) {
-        String admin = "ADMIN";
-        String user = "USER";
-        String guest = "GUEST";
-        if (entity.getRoleName() == admin | entity.getRoleName() == user | entity.getRoleName() == guest) {
+        if (entity.getRoleName().equals(ADMIN)|| entity.getRoleName().equals(USER) || entity.getRoleName().equals(GUEST)) {
             return true;
         } else {
             return false;

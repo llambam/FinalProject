@@ -22,7 +22,7 @@ public class SQLUserRolesDao implements UserRolesDao {
     private static final String DELETE_BY_ID = "DELETE FROM user_roles WHERE user_id = ?";
     private static final String CREATE_ROLE = "INSERT INTO user_roles (user_id, role) VALUES (?,?)";
     private static final String UPDATE_ROLE = "UPDATE user_roles SET role=? WHERE user_id=? LIMIT 1";
-    private static final String SELECT_BY_ID = "SELECT * FROM user WHERE user_id = ?";
+    private static final String SELECT_BY_ID = "SELECT * FROM user_roles WHERE user_id = ?";
     private static final String SELECT_ALL_ID = "SELECT user_id FROM user_roles";
 
     public SQLUserRolesDao() {
@@ -66,7 +66,7 @@ public class SQLUserRolesDao implements UserRolesDao {
             if (set.next()) {
                 UserRoles userRoles = new UserRoles();
                 userRoles.setUserId(set.getLong(USER_ID));
-                userRoles.setRoleName(set.getString(UPDATE_ROLE));
+                userRoles.setRoleName(set.getString(USER_ROLE));
                 return userRoles;
             } else {
                 return null;

@@ -14,7 +14,7 @@ public interface UserService extends GenericServiceInterface <User, Long> {
      */
     User authorization(User user) throws ServiceException;
 
-    Integer block (User user) throws ServiceException;
+    Integer block (Long userId) throws ServiceException;
 
 
 

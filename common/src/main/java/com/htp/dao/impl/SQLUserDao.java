@@ -189,7 +189,8 @@ public class SQLUserDao implements UserDao {
     }
 
     @Override
-    public Long create(User entity) throws DaoException {
+    public Long create(User entity) throws DaoException, ConnectionPoolException {
+        ConnectionPool.getInstance().init();
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_USER)) {
             statement.setString(1, entity.getUserName());

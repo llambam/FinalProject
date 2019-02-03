@@ -28,7 +28,7 @@ public class PhoneBookValidatir implements ValidatorInterface<PhoneBook> {
 
         nameValid = entity.getName().matches(REGEX_NAME_AND_SURNAME);
         surnameValid = entity.getSurname().matches(REGEX_NAME_AND_SURNAME);
-        telephoneValid = entity.getTelephone().length() == TELEPHONE_LENGTH;
+        telephoneValid = entity.getTelephone().length() <= TELEPHONE_LENGTH_MAX & entity.getTelephone().length() >= TELEPHONE_LENGTH_MIN;
         eMailValid = entity.geteMail().matches(REGEX_EMAIL);
         dateValid = entity.getCreationDate().matches(REGEX_DATE_FORMAT);
 

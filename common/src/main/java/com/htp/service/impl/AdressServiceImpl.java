@@ -1,6 +1,7 @@
 package com.htp.service.impl;
 
 import com.htp.dao.AdressDao;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.Adress;
 import com.htp.exception.DaoException;
@@ -36,7 +37,7 @@ public class AdressServiceImpl implements AdressService {
             } else {
                 return null;
             }
-        } catch (DaoException e) {
+        } catch (DaoException |ConnectionPoolException e) {
             e.printStackTrace();
             return null;
         }

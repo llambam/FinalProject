@@ -3,6 +3,15 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
+    <!--<welcome-file-list>-->
+    <!--<welcome-file>index.html</welcome-file>-->
+    <!--<welcome-file>index.htm</welcome-file>-->
+    <!--<welcome-file>index.jsp</welcome-file>-->
+    <!--<welcome-file>default.html</welcome-file>-->
+    <!--<welcome-file>default.htm</welcome-file>-->
+    <!--<welcome-file>default.jsp</welcome-file>-->
+    <!--</welcome-file-list>-->
+
 
     <servlet>
         <servlet-name>FrontController</servlet-name>
@@ -13,36 +22,67 @@
         <url-pattern>/FrontController</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Registration</servlet-name>
+        <jsp-file>/WEB-INF/jsp/reservation/registration.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Registration</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Adress</servlet-name>
+        <jsp-file>/WEB-INF/jsp/reservation/adress.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Adress</servlet-name>
+        <url-pattern>/adress</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Error</servlet-name>
+        <jsp-file>/WEB-INF/jsp/error/error.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-        <welcome-file>index.htm</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
-        <welcome-file>default.html</welcome-file>
-        <welcome-file>default.htm</welcome-file>
-        <welcome-file>default.jsp</welcome-file>
-        <welcome-file>redirect.jsp</welcome-file>
-    </welcome-file-list>
+    <servlet>
+        <servlet-name>Main_table</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/main_table.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Main_table</servlet-name>
+        <url-pattern>/main_table</url-pattern>
+    </servlet-mapping>
 
-    <!-- Filters -->
-    <filter>
-        <display-name>CharsetFilter</display-name>
-        <filter-name>CharsetFilter</filter-name>
-        <filter-class>com.htp.filter.CharsetFilter</filter-class>
-        <init-param>
-            <param-name>characterEncoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>CharsetFilter</filter-name>
-        <url-pattern>/FrontController</url-pattern>
-    </filter-mapping>
+    <servlet>
+        <servlet-name>My_numbers</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/my_numbers_table.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>My_numbers</servlet-name>
+        <url-pattern>/my_numbers</url-pattern>
+    </servlet-mapping>
 
-    <session-config>
-        <session-timeout>10</session-timeout>
-    </session-config>
+    <servlet>
+        <servlet-name>Admin_phones</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/admin_all_phones.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin_phones</servlet-name>
+        <url-pattern>/adm_phones</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Admin_users</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/admin_all_users.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin_users</servlet-name>
+        <url-pattern>/adm_users</url-pattern>
+    </servlet-mapping>
 
 </web-app>

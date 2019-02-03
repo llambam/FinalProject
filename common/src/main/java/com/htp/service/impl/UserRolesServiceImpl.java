@@ -1,6 +1,7 @@
 package com.htp.service.impl;
 
 import com.htp.dao.UserRolesDao;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.UserRoles;
 import com.htp.exception.DaoException;
@@ -32,17 +33,17 @@ public class UserRolesServiceImpl implements UserRolesService {
         try {
             UserRolesDao userRolesDao = factory.getUserRolesDao();
             if (VALIDATE.isValid(entity)) {
-                    Long id = userRolesDao.create(entity);
-                    return entity;
-                } else {
-                    return null;
-                }
-        } catch (DaoException e) {
+                Long id = userRolesDao.create(entity);
+                return entity;
+            } else {
+                return null;
+            }
+        } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
             return null;
+
         }
     }
-
     @Override
     public UserRoles update(UserRoles entity) throws ServiceException {
         try {

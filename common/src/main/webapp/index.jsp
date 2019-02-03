@@ -6,12 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html">
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
 </head>
 <body>
 <div align="center">
     <div>
         <form action="FrontController" id="form-page-registration">
-            <input type="hidden" name="command" value="registration">
+            <input type="hidden" name="command" value="autorization">
             <div class="table">
                 <div class="tr">
                     <div class="login">
@@ -23,9 +24,13 @@
                         <input type="password" id="Password" name="password" size = "20" maxlength="25"  placeholder="Password">
                     </div>
                 </div>
+
             </div>
-            <input type="submit" id="finish_button" value="Reg me!">
+            <input type="submit" id="finish_button" value="Login">
         </form>
+        <button>
+            <a href="register">Register</a>
+        </button>
     </div>
 </div>
 </body>

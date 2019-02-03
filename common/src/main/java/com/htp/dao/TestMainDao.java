@@ -6,7 +6,10 @@ import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;
 
+import javax.jws.soap.SOAPBinding;
 import java.text.ParseException;
+
+import static com.htp.domain.to.UserRolesNamesInterface.ADMIN;
 
 public class TestMainDao {
 
@@ -22,14 +25,15 @@ public class TestMainDao {
         DaoFactory factory = DaoFactory.getDaoFactory();
         UserDao userDao = factory.getUserDao();
 
-        User user = new User(1L,"name","surname","login","pass","2525550","email",1,"2012-12-12");
+        User user = new User();
+        user.setUserId(2L);
 
         try {
-            userDao.create(user);
+            boolean s=factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(ADMIN);
+            System.out.println(s);
         } catch (DaoException e) {
             e.printStackTrace();
         }
-
 
     }
 }

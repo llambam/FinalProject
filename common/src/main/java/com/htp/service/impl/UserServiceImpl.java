@@ -1,6 +1,7 @@
 package com.htp.service.impl;
 
 import com.htp.dao.UserDao;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;
@@ -35,17 +36,16 @@ public class UserServiceImpl implements UserService {
         try {
             UserDao userDao = factory.getUserDao();
             if (VALIDATE_USER.isValid(entity) & VALIDATE_LOGIN.isValid(entity)) {
-                boolean check = UserPasswordHash(entity, userDao);
-                if (!check & userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
+//                if ( userDao.checkUserloginUQ(entity.getLogin()) == userDao.checkUserTelephoneUQ(entity.getTelephone())==true) {
                     Long id = userDao.create(entity);
                     return entity;
-                } else {
-                    return null;
-                }
+//                } else {
+//                    return null;
+//                }
             } else {
                 return null;
             }
-        } catch (DaoException e) {
+        } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
             return null;
         }
@@ -55,9 +55,8 @@ public class UserServiceImpl implements UserService {
     public User update(User entity) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
-            if (VALIDATE_USER.isValid(entity) & VALIDATE_LOGIN.isValid(entity)) {
-                boolean check = UserPasswordHash(entity, userDao);
-                if (!check & userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
+            if (VALIDATE_USER.isValid(entity) == VALIDATE_LOGIN.isValid(entity)==true) {
+                if ( userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
                     Long id = userDao.update(entity);
                     return entity;
                 } else {
@@ -85,12 +84,12 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = factory.getUserDao();
 
             if (VALIDATE_LOGIN.isValid(user)) {
-                boolean check = UserPasswordHash(user, userDao);
-                if (!check) {
-                    return null;
-                } else {
+//                boolean check = userPasswordHash(user, userDao);
+//                if (!check) {
+//                    return null;
+//                } else {
                     return userDao.getUserNode(user.getLogin(), user.getPassword());
-                }
+//                }
             } else {
                 throw new ValidationException("Validation Exception");
             }
@@ -100,9 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer block(User user) throws ServiceException {
+    public Integer block(Long userId) throws ServiceException {
        try {
+           DaoFactory factory = DaoFactory.getDaoFactory();
            UserDao userDao = factory.getUserDao();
+           User user = userDao.findById(userId);
 
            int block = user.getBlocked();
            if (block == 0) {
@@ -123,7 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private boolean UserPasswordHash(User entity, UserDao userDao) throws DaoException {
+    private boolean userPasswordHash(User entity, UserDao userDao) throws DaoException {
         String password = entity.getPassword();
         String passwordMD5 = DigestUtils.md5Hex(password);
         entity.setPassword(passwordMD5);

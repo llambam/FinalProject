@@ -1,6 +1,7 @@
 package com.htp.service.impl;
 
 import com.htp.dao.UserFavoriteNumberDao;
+import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.dao.factory.DaoFactory;
 import com.htp.domain.to.UserFavoriteNumber;
 import com.htp.exception.DaoException;
@@ -36,10 +37,9 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
             } else {
                 return null;
             }
-        } catch (DaoException e) {
+        } catch (DaoException|ConnectionPoolException  e) {
             e.printStackTrace();
-            return null;
-        }
+            return null;}
     }
 
     @Override
