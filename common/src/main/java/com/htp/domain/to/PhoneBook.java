@@ -2,6 +2,7 @@ package com.htp.domain.to;
 
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 public class PhoneBook implements Serializable {
@@ -10,9 +11,9 @@ public class PhoneBook implements Serializable {
     private String surname;
     private String telephone;
     private String eMail;
-    private String creationDate;
+    private Date creationDate;
 
-    public PhoneBook(Long phoneBookId, String name, String surname, String telephone, String eMail, String creationDate) {
+    public PhoneBook(Long phoneBookId, String name, String surname, String telephone, String eMail, Date creationDate) {
         this.phoneBookId = phoneBookId;
         this.name = name;
         this.surname = surname;
@@ -64,11 +65,11 @@ public class PhoneBook implements Serializable {
         this.eMail = eMail;
     }
 
-    public String getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 

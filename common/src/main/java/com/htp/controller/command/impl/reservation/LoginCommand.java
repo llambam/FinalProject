@@ -30,6 +30,7 @@ public class LoginCommand implements CommandInterface, PagePath {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String ADMIN_ROLE = "admin";
+    private static final String USER_ID = "userId";
     private static final String CLIENT_ROLE = "client";
     private static final String ERROR_FLAG = "errorFlag";
     private static final int ERROR_FLAG_VALUE = 1;
@@ -81,18 +82,29 @@ public class LoginCommand implements CommandInterface, PagePath {
             User user = SERVICE.authorization(tempUser);
             DaoFactory factory = DaoFactory.getDaoFactory();
 
+            Long sessionUserID=user.getUserId();
+            session.setAttribute(USER_ID,sessionUserID);
+            User userforBlockCheck = new User();
+            userforBlockCheck=factory.getUserDao().findById(sessionUserID);
+
+
+
             if (user == null) {
                 request.setAttribute(ERROR_FLAG, ERROR_FLAG_VALUE);
                 request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);//  одна из возможных реализаций отображений эррор мэссэджа у клиента
                 page = INDEX;
             } else {
-                if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(ADMIN)) {
-                    session.setAttribute(ADMIN_ROLE, user);
-                    page = ADMIN_USERS;
-                }
-                if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(USER)) {
-                    session.setAttribute(CLIENT_ROLE, user);
-                    page = MAIN_TABLE;
+                if(userforBlockCheck.getBlocked()==0) {
+                    if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(ADMIN)) {
+                        session.setAttribute(ADMIN_ROLE, user);
+                        page = ADMIN_USERS;
+                    }
+                    if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(USER)) {
+                        session.setAttribute(CLIENT_ROLE, user);
+                        page = MAIN_TABLE;
+                    }
+                }else {
+                    page=BLOCKED;
                 }
             }
             request.setAttribute(ACTION, REDIRECT_ACTION_ATTRIBUTE);

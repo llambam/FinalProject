@@ -15,7 +15,7 @@ public interface GenericServiceInterface<T, K> {
      * @return {@link T} object, that method can create
      * @throws ServiceException
      */
-    T create(T entity) throws ServiceException;
+    Long create(T entity) throws ServiceException;
 
 
     T update(T entity) throws ServiceException;

@@ -1,17 +1,18 @@
 package com.htp.domain.to;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 public class UserFavoriteNumber implements Serializable {
     private Long userID;
     private Long phoneBookID;
-    private String date;
+    private Date date;
 
     public UserFavoriteNumber() {
     }
 
-    public UserFavoriteNumber(Long userID, Long phoneBookID, String date) {
+    public UserFavoriteNumber(Long userID, Long phoneBookID, Date date) {
         this.userID = userID;
         this.phoneBookID = phoneBookID;
         this.date = date;
@@ -33,11 +34,11 @@ public class UserFavoriteNumber implements Serializable {
         this.phoneBookID = phoneBookID;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

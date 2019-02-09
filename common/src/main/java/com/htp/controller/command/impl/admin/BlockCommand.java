@@ -1,5 +1,6 @@
 package com.htp.controller.command.impl.admin;
 
+import com.htp.controller.command.PagePath;
 import com.htp.controller.command.util.CommandException;
 import com.htp.controller.command.util.CommandInterface;
 import com.htp.dao.UserDao;
@@ -11,7 +12,7 @@ import com.htp.service.impl.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class BlockCommand implements CommandInterface {
+public class BlockCommand implements CommandInterface, PagePath {
     private static final UserService SERVICE = UserServiceImpl.getInstance();
     private static final DaoFactory factory = DaoFactory.getDaoFactory();
     private static final UserDao userDao = factory.getUserDao();
@@ -42,10 +43,11 @@ public class BlockCommand implements CommandInterface {
         try {
             Long userId = Long.valueOf(request.getParameter(USER_ID));
             SERVICE.block(userId);
+            request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return "/";
+        return ADMIN_USERS;
 
     }
 }

@@ -28,12 +28,12 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
     }
 
     @Override
-    public UserFavoriteNumber create(UserFavoriteNumber entity) throws ServiceException {
+    public Long create(UserFavoriteNumber entity) throws ServiceException {
         try {
             UserFavoriteNumberDao userFavoriteNumberDao= factory.getUserFavoriteNumberDao();
             if (VALIDATE.isValid(entity)) {
                 Long id = userFavoriteNumberDao.create(entity);
-                return entity;
+                return id;
             } else {
                 return null;
             }

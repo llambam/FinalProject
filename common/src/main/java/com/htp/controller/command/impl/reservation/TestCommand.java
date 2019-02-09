@@ -29,11 +29,11 @@ public class TestCommand implements CommandInterface {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
         User[] user = new User[5];
-        user[0]=new User(5L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
-        user[1]=new User(6L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
-        user[2]=new User(7L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
-        user[3]=new User(8L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
-        user[4]=new User(9L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
+//        user[0]=new User(5L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
+//        user[1]=new User(6L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
+//        user[2]=new User(7L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
+//        user[3]=new User(8L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
+//        user[4]=new User(9L,"ss","asdsa","login","pass","454545","sdsd@asd",0,"2012-12-12");
         List<User> users = Arrays.asList(user);
 
         request.setAttribute("testList", users);

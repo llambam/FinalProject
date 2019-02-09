@@ -28,12 +28,12 @@ public class AdressServiceImpl implements AdressService {
     }
 
     @Override
-    public Adress create(Adress entity) throws ServiceException {
+    public Long create(Adress entity) throws ServiceException {
         try {
             AdressDao adressDao= factory.getAdressDao();
             if (VALIDATE.isValid(entity)) {
-                Long id = adressDao.create(entity);
-                return entity;
+                Long ID=adressDao.create(entity);
+                return ID;
             } else {
                 return null;
             }

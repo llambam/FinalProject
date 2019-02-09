@@ -28,13 +28,13 @@ public class PhoneBookServiceImpl implements PhoneBookService {
     }
 
     @Override
-    public PhoneBook create(PhoneBook entity) throws ServiceException {
+    public Long create(PhoneBook entity) throws ServiceException {
         try {
             PhoneBookDao phoneBookDao = factory.getPhoneBookDao();
             if (VALIDATE.isValid(entity)) {
                 if (phoneBookDao.checkUserTelephoneUQ(entity.getTelephone())) {
                     Long id = phoneBookDao.create(entity);
-                    return entity;
+                    return id;
                 }else {
                     return null;
                 }

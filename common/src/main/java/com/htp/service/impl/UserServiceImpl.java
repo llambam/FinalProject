@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User create(User entity) throws ServiceException {
+    public Long create(User entity) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
             if (VALIDATE_USER.isValid(entity) & VALIDATE_LOGIN.isValid(entity)) {
 //                if ( userDao.checkUserloginUQ(entity.getLogin()) == userDao.checkUserTelephoneUQ(entity.getTelephone())==true) {
                     Long id = userDao.create(entity);
-                    return entity;
+                    return id;
 //                } else {
 //                    return null;
 //                }

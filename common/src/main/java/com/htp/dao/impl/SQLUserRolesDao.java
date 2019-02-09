@@ -16,6 +16,7 @@ import java.util.List;
 public class SQLUserRolesDao implements UserRolesDao {
 
     private static final String USER_ID = "user_id";
+    private static final String MAX_USER_ID= "max(user_id)";
     private static final String USER_ROLE = "role";
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
@@ -23,7 +24,8 @@ public class SQLUserRolesDao implements UserRolesDao {
     private static final String CREATE_ROLE = "INSERT INTO user_roles (user_id, role) VALUES (?,?)";
     private static final String UPDATE_ROLE = "UPDATE user_roles SET role=? WHERE user_id=? LIMIT 1";
     private static final String SELECT_BY_ID = "SELECT * FROM user_roles WHERE user_id = ?";
-    private static final String SELECT_ALL_ID = "SELECT user_id FROM user_roles";
+    private static final String SELECT_ALL_ID = "SELECT * FROM user_roles";
+    private static final String SELECT_MAX_ID = "SELECT max(user_id) FROM user_roles";
 
     public SQLUserRolesDao() {
     }
@@ -46,7 +48,7 @@ public class SQLUserRolesDao implements UserRolesDao {
             while (set.next()) {
                 UserRoles userRoles = new UserRoles();
                 userRoles.setUserId(set.getLong(USER_ID));
-                userRoles.setRoleName(set.getString(UPDATE_ROLE));
+                userRoles.setRoleName(set.getString(USER_ROLE));
                 list.add(userRoles);
             }
             return list;
@@ -94,8 +96,15 @@ public class SQLUserRolesDao implements UserRolesDao {
              PreparedStatement statement = connect.prepareStatement(CREATE_ROLE)) {
             statement.setLong(1, entity.getUserId());
             statement.setString(2, String.valueOf(entity.getRoleName()));
-            int rows = statement.executeUpdate();
-            return entity.getUserId();
+            statement.executeUpdate();
+            PreparedStatement returnStatement = connect.prepareStatement(SELECT_MAX_ID);
+            ResultSet set = returnStatement.executeQuery();
+            if (set.next()) {
+                Long ID = set.getLong(MAX_USER_ID);
+                return ID;
+            }else{
+                return null;
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }

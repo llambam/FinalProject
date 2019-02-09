@@ -19,8 +19,10 @@ public class UserFavoriteNumberValidatir implements ValidatorInterface<UserFavor
 
     @Override
     public boolean isValid(UserFavoriteNumber entity) {
-        boolean dateValid;
-        dateValid=entity.getDate().matches(REGEX_DATE_FORMAT);
-        return dateValid;
+//        boolean dateValid;
+//        dateValid=entity.getDate().matches(REGEX_DATE_FORMAT);
+//        return dateValid; //validator for String date format
+
+        return true;
     }
 }

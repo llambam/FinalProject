@@ -1,12 +1,9 @@
-package com.htp.domain.to;
+package com.htp.domain.vo;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class UserForAdminTable {
     private Long userId;
     private String userName;
     private String surname;
@@ -16,13 +13,12 @@ public class User implements Serializable {
     private String email;
     private int blocked;
     private Date registrationDate;
+    private String roleName;
 
-
-    public User() {
-
+    public UserForAdminTable() {
     }
 
-    public User(Long userId, String userName, String surname, String login, String password, String telephone, String email, int blocked, Date registrationDate) {
+    public UserForAdminTable(Long userId, String userName, String surname, String login, String password, String telephone, String email, int blocked, Date registrationDate, String roleName) {
         this.userId = userId;
         this.userName = userName;
         this.surname = surname;
@@ -32,10 +28,7 @@ public class User implements Serializable {
         this.email = email;
         this.blocked = blocked;
         this.registrationDate = registrationDate;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+        this.roleName = roleName;
     }
 
     public Long getUserId() {
@@ -110,39 +103,49 @@ public class User implements Serializable {
         this.registrationDate = registrationDate;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", surname='" + surname + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", telephone=" + telephone +
-                ", email='" + email + '\'' +
-                ", blocked=" + blocked +
-                ", registrationDate=" + registrationDate +
-                '}';
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return telephone == user.telephone &&
-                blocked == user.blocked &&
-                Objects.equals(userId, user.userId) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(surname, user.surname) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(registrationDate, user.registrationDate);
+        UserForAdminTable that = (UserForAdminTable) o;
+        return blocked == that.blocked &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(login, that.login) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(telephone, that.telephone) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(registrationDate, that.registrationDate) &&
+                Objects.equals(roleName, that.roleName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, surname, login, password, telephone, email, blocked, registrationDate);
+        return Objects.hash(userId, userName, surname, login, password, telephone, email, blocked, registrationDate, roleName);
+    }
+
+    @Override
+    public String toString() {
+        return "UserForAdminTable{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", blocked=" + blocked +
+                ", registrationDate=" + registrationDate +
+                ", roleName='" + roleName + '\'' +
+                '}';
     }
 }

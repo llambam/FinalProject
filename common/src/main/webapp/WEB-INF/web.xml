@@ -13,6 +13,12 @@
     <!--</welcome-file-list>-->
 
 
+    <listener>
+        <listener-class>
+            com.htp.listener.ConnectPoolListener
+        </listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.htp.controller.FrontController</servlet-class>
@@ -50,6 +56,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Ban_page</servlet-name>
+        <jsp-file>/WEB-INF/jsp/error/you_are_banned.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Ban_page</servlet-name>
+        <url-pattern>/blocked</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Main_table</servlet-name>
         <jsp-file>/WEB-INF/jsp/user/main_table.jsp</jsp-file>
     </servlet>
@@ -65,6 +80,15 @@
     <servlet-mapping>
         <servlet-name>My_numbers</servlet-name>
         <url-pattern>/my_numbers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Add_new_number</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/add_new_number.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Add_new_number</servlet-name>
+        <url-pattern>/add_new_number</url-pattern>
     </servlet-mapping>
 
     <servlet>

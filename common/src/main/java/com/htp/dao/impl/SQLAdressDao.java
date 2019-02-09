@@ -13,10 +13,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class SQLAdressDao implements AdressDao {
 
+    private static final Long ADMIN_ID = 2L;
 
     private static final String PHONE_BOOK_ID = "phone_book_id";
+    private static final String MAX_PHONE_BOOK_ID = "max(phone_book_id)";
     private static final String USER_ID = "user_id";
     private static final String CITY = "city";
     private static final String DISTRICT = "district";
@@ -28,10 +31,12 @@ public class SQLAdressDao implements AdressDao {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String DELETE_BY_ID = "DELETE FROM adress WHERE phone_book_id = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM adress WHERE phone_book_id = ?";
-    private static final String SELECT_ALL_ID = "SELECT phone_book_id FROM adress";
+    private static final String SELECT_ALL_ID = "SELECT * FROM adress";
+    private static final String SELECT_ID_BY_ALL = "SELECT phone_book_id FROM adress WHERE  city=?, district=?, street=?, house_number=?, floor=?, apartment_number=?";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM adress WHERE user_id = ?";
-    private static final String CREATE_ADRESS = "INSERT INTO adress (city, district, street, house_number, floor, apartment_number) VALUES (?,?,?,?,?,?)";
+    private static final String CREATE_ADRESS = "INSERT INTO adress (user_id, city, district, street, house_number, floor, apartment_number) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_ADRESS = "UPDATE adress SET user_id=?, city=?, district=?, street=?, house_number=?, floor=?, apartment_number=?  WHERE phone_book_id=? LIMIT 1";
+    private static final String SELECT_MAX_ID = "SELECT max(phone_book_id) FROM adress";
 
 
     public SQLAdressDao() {
@@ -49,6 +54,31 @@ public class SQLAdressDao implements AdressDao {
     @Override
     public Adress foundByUserID(Long user_id) throws DaoException {
         return getAdress(user_id, SELECT_BY_USER_ID);
+    }
+
+
+    @Override
+    public Long getAdressId(Adress adress) throws DaoException {
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_ID_BY_ALL)) {
+            statement.setString(1, adress.getCity());
+            statement.setString(2, adress.getDistrict());
+            statement.setString(3, adress.getStreet());
+            statement.setInt(4, adress.getHouseNumber());
+            statement.setInt(5, adress.getFloor());
+            statement.setInt(6, adress.getApartmentNumber());
+            ResultSet set = statement.executeQuery();
+
+            if (set.next()) {
+                Long ID = null;
+                ID = set.getLong(PHONE_BOOK_ID);
+                return ID;
+            } else {
+                return null;
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception", e);
+        }
     }
 
 
@@ -89,14 +119,26 @@ public class SQLAdressDao implements AdressDao {
     public Long create(Adress entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_ADRESS)) {
-            statement.setString(1, entity.getCity());
-            statement.setString(2, entity.getDistrict());
-            statement.setString(3, entity.getStreet());
-            statement.setInt(4, entity.getHouseNumber());
-            statement.setInt(5, entity.getFloor());
-            statement.setInt(6, entity.getApartmentNumber());
-            int rows = statement.executeUpdate();
-            return entity.getPhoneBookID();
+            if (entity.getUserID() == null) {
+                entity.setUserID(ADMIN_ID);
+            }
+            statement.setLong(1, entity.getUserID());
+            statement.setString(2, entity.getCity());
+            statement.setString(3, entity.getDistrict());
+            statement.setString(4, entity.getStreet());
+            statement.setInt(5, entity.getHouseNumber());
+            statement.setInt(6, entity.getFloor());
+            statement.setInt(7, entity.getApartmentNumber());
+            statement.executeUpdate();
+
+            PreparedStatement returnStatement = connect.prepareStatement(SELECT_MAX_ID);
+            ResultSet set = returnStatement.executeQuery();
+            if (set.next()) {
+                Long ID = set.getLong(MAX_PHONE_BOOK_ID);
+                return ID;
+            }else{
+                return null;
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }

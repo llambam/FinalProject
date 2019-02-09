@@ -6,31 +6,33 @@ import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.domain.to.PhoneBook;
 import com.htp.exception.DaoException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SQLPhoneBookDao implements PhoneBookDao {
     private static final String PHONE_BOOK_ID = "phone_book_id";
+    private static final String MAX_PHONE_BOOK_ID = "max(phone_book_id)";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String TELEPHONE = "telephone";
     private static final String EMAIL = "email";
     private static final String CREATION_DATE = "creation_date";
 
+    private static final int SUBSTRING_DATE_START_INFEX=0;
+    private static final int SUBSTRING_DATE_END_INFEX=10;
+
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String SELECT_BY_ID = "SELECT * FROM phone_book WHERE phone_book_id = ?";
-    private static final String SELECT_ALL_ID = "SELECT phone_book_id FROM phone_book";
+    private static final String SELECT_ALL_ID = "SELECT * FROM phone_book";
     private static final String DELETE_BY_ID = "DELETE FROM phone_book WHERE phone_book_id = ?";
-    private static final String CREATE_PHONE_BOOK = "INSERT INTO phone_book (name, surname, telephone, email, creation_date) VALUES (?,?,?,?,?)";
+    private static final String CREATE_PHONE_BOOK = "INSERT INTO phone_book (phone_book_id, name, surname, telephone, email, creation_date) VALUES (?,?,?,?,?,?)";
     private static final String UPDATE_PHONE_BOOK = "UPDATE phone_book SET name=?, surname=?, telephone=?, email=?, creation_date=? WHERE phone_book_id=? LIMIT 1";
     private static final String SELECT_BY_TELEPHONE = "SELECT * FROM phone_book WHERE telephone LIKE %?%";
     private static final String SELECT_BY_SURNAME = "SELECT * FROM phone_book WHERE surname LIKE %?%";
     private static final String SELECT_BY_TELEPHONE_AND_SURNAME = "SELECT * FROM phone_book WHERE surname =? telephone=?";
-    private static final String SELECT_BY_TELEPHONE_UQ= "SELECT * FROM adress WHERE telephone = ?";
+    private static final String SELECT_BY_TELEPHONE_UQ= "SELECT * FROM phone_book WHERE telephone = ?";
+    private static final String SELECT_MAX_ID = "SELECT max(phone_book_id) FROM phone_book";
 
     public SQLPhoneBookDao() {
     }
@@ -73,7 +75,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setSurname(set.getString(SURNAME));
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getString(CREATION_DATE));
+                phoneBook.setCreationDate(Date.valueOf(set.getString(CREATION_DATE)));
                 list.add(phoneBook);
             }
             return list;
@@ -96,7 +98,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setSurname(set.getString(SURNAME));
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getString(CREATION_DATE));
+                phoneBook.setCreationDate(Date.valueOf(set.getString(CREATION_DATE)));
                 list.add(phoneBook);
             }
             return list;
@@ -136,7 +138,9 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setSurname(set.getString(SURNAME));
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getString(CREATION_DATE));
+
+                String date=set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                phoneBook.setCreationDate(Date.valueOf(date));
                 list.add(phoneBook);
             }
             return list;
@@ -161,7 +165,8 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setSurname(set.getString(SURNAME));
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                phoneBook.setCreationDate(set.getString(CREATION_DATE));
+                String date=set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                phoneBook.setCreationDate(Date.valueOf(date));
                 return phoneBook;
             } else {
                 return null;
@@ -188,13 +193,21 @@ public class SQLPhoneBookDao implements PhoneBookDao {
     public Long create(PhoneBook entity) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(CREATE_PHONE_BOOK)) {
-            statement.setString(1, entity.getName());
-            statement.setString(2, entity.getSurname());
-            statement.setString(3, entity.getTelephone());
-            statement.setString(4, entity.geteMail());
-            statement.setString(5, entity.getCreationDate());
-            int rows = statement.executeUpdate();
-            return entity.getPhoneBookId();
+            statement.setLong(1, entity.getPhoneBookId());
+            statement.setString(2, entity.getName());
+            statement.setString(3, entity.getSurname());
+            statement.setString(4, entity.getTelephone());
+            statement.setString(5, entity.geteMail());
+            statement.setString(6, String.valueOf(entity.getCreationDate()));
+            statement.executeUpdate();
+            PreparedStatement returnStatement = connect.prepareStatement(SELECT_MAX_ID);
+            ResultSet set = returnStatement.executeQuery();
+            if (set.next()) {
+                Long ID = set.getLong(MAX_PHONE_BOOK_ID);
+                return ID;
+            }else{
+                return null;
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception", e);
         }
@@ -208,7 +221,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             statement.setString(2, entity.getSurname());
             statement.setString(3, entity.getTelephone());
             statement.setString(4, entity.geteMail());
-            statement.setString(5, entity.getCreationDate());
+            statement.setString(5, String.valueOf(entity.getCreationDate()));
             int rows = statement.executeUpdate();
             return 0L;
         } catch (SQLException | ConnectionPoolException e) {

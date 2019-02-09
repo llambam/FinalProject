@@ -1,8 +1,14 @@
 package com.htp.controller.command.util;
 
+import com.htp.controller.command.impl.admin.AdminUserTableCommand;
+import com.htp.controller.command.impl.admin.BlockCommand;
 import com.htp.controller.command.impl.reservation.LoginCommand;
+import com.htp.controller.command.impl.reservation.LogoutCommand;
 import com.htp.controller.command.impl.reservation.RegistrationCommand;
 import com.htp.controller.command.impl.reservation.TestCommand;
+import com.htp.controller.command.impl.user.AddNewNumberCommand;
+import com.htp.controller.command.impl.user.AddToFavoriteCommand;
+import com.htp.controller.command.impl.user.PhoneBookTableCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -19,8 +25,15 @@ public class CommandHelper {
 
     public CommandHelper() {
         commands.put(CommandName.AUTORIZATION, LoginCommand.getInstance());
+        commands.put(CommandName.LOGOUT, LogoutCommand.getInstance());
         commands.put(CommandName.REGISTRATION, RegistrationCommand.getInstance());
-        commands.put(CommandName.TEST_COMMAND, TestCommand.getInstance());
+//        commands.put(CommandName.TEST_COMMAND, TestCommand.getInstance());// TEST!!!
+        commands.put(CommandName.BLOCK, BlockCommand.getInstance());
+        commands.put(CommandName.PHONEBOOKTABLE, PhoneBookTableCommand.getInstance());
+        commands.put(CommandName.ADD_TO_FAVORITE, AddToFavoriteCommand.getInstance());
+        commands.put(CommandName.ADD_NEW_NUMBER, AddNewNumberCommand.getInstance());
+        commands.put(CommandName.ADMIN_USER_TABLE, AdminUserTableCommand.getInstance());
+
 
     }
 
@@ -43,6 +56,7 @@ public class CommandHelper {
 
 
     private enum CommandName {
-        AUTORIZATION, LOGOUT, REGISTRATION, TEST_COMMAND}
+        AUTORIZATION, LOGOUT, REGISTRATION, TEST_COMMAND, BLOCK, PHONEBOOKTABLE, ADRES_REGISTER, ADD_NEW_NUMBER, ADD_TO_FAVORITE, ADMIN_USER_TABLE
+    }
 
 }

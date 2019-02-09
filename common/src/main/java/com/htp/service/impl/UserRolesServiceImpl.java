@@ -29,12 +29,12 @@ public class UserRolesServiceImpl implements UserRolesService {
 
 
     @Override
-    public UserRoles create(UserRoles entity) throws ServiceException {
+    public Long create(UserRoles entity) throws ServiceException {
         try {
             UserRolesDao userRolesDao = factory.getUserRolesDao();
             if (VALIDATE.isValid(entity)) {
                 Long id = userRolesDao.create(entity);
-                return entity;
+                return id;
             } else {
                 return null;
             }
