@@ -14,7 +14,8 @@ public class UserRolesServiceImpl implements UserRolesService {
 
 
     private static final DaoFactory factory = DaoFactory.getDaoFactory();
-    private static final ValidatorInterface<UserRoles> VALIDATE= UserRolesValidator.getInstance();
+    private static final ValidatorInterface<UserRoles> VALIDATE = UserRolesValidator.getInstance();
+
     public UserRolesServiceImpl() {
     }
 
@@ -40,10 +41,11 @@ public class UserRolesServiceImpl implements UserRolesService {
             }
         } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
 
         }
     }
+
     @Override
     public UserRoles update(UserRoles entity) throws ServiceException {
         try {
@@ -56,7 +58,7 @@ public class UserRolesServiceImpl implements UserRolesService {
             }
         } catch (DaoException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 }

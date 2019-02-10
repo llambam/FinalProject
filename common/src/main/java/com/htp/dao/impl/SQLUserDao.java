@@ -6,17 +6,19 @@ import com.htp.dao.connection_pool.ConnectionPoolException;
 import com.htp.domain.to.User;
 import com.htp.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 
 public class SQLUserDao implements UserDao {
 
 
     private static final String USER_ID = "user_id";
-    private static final String MAX_USER_ID= "max(user_id)";
+    private static final String MAX_USER_ID = "max(user_id)";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String LOGIN = "login";
@@ -26,15 +28,15 @@ public class SQLUserDao implements UserDao {
     private static final String BLOCK = "block";
     private static final String REGISRATION_DATE = "registration_date";
 
-    private static final int SUBSTRING_DATE_START_INFEX=0;
-    private static final int SUBSTRING_DATE_END_INFEX=10;
+    private static final int SUBSTRING_DATE_START_INFEX = 0;
+    private static final int SUBSTRING_DATE_END_INFEX = 10;
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE user_id = ?";
     private static final String DELETE_BY_ID = "DELETE FROM user WHERE user_id = ?";
     private static final String SELECT_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? and password = ?";
     private static final String SELECT_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
-    private static final String SELECT_BY_TELEPHONE= "SELECT * FROM user WHERE telephone = ?";
+    private static final String SELECT_BY_TELEPHONE = "SELECT * FROM user WHERE telephone = ?";
     private static final String CREATE_USER = "INSERT INTO user (name, surname, login, password, telephone, email, registration_date) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_USER = "UPDATE user SET name=?, surname=?, login=?, password=?, telephone=?, email=?, block=? WHERE user_id=? LIMIT 1";
     private static final String SELECT_ALL_ID = "SELECT * FROM user";
@@ -94,7 +96,7 @@ public class SQLUserDao implements UserDao {
             }
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -108,7 +110,7 @@ public class SQLUserDao implements UserDao {
         return checkUQ(telephone, SELECT_BY_TELEPHONE);
     }
 
-    private boolean checkUQ(String checkParametr, String sqlReqest) {
+    private boolean checkUQ(String checkParametr, String sqlReqest) throws DaoException {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(sqlReqest)) {
             statement.setString(1, checkParametr);
@@ -120,18 +122,18 @@ public class SQLUserDao implements UserDao {
             }
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
     @Override
     public List<User> findAll() throws DaoException {
-        try (Connection connect=pool.getConnection();
-             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)){
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)) {
             ResultSet set = statement.executeQuery();
             List<User> list = new ArrayList<>();
             while (set.next()) {
-                User user= new User();
+                User user = new User();
                 user.setUserId(set.getLong(USER_ID));
                 user.setUserName(set.getString(NAME));
                 user.setSurname(set.getString(SURNAME));
@@ -141,14 +143,14 @@ public class SQLUserDao implements UserDao {
                 user.setEmail(set.getString(EMAIL));
                 user.setBlocked(set.getInt(BLOCK));
 
-                String date=set.getString(REGISRATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(REGISRATION_DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 user.setRegistrationDate(java.sql.Date.valueOf(date));
                 list.add(user);
             }
             return list;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -170,7 +172,7 @@ public class SQLUserDao implements UserDao {
                 user.setTelephone(set.getString(TELEPHONE));
                 user.setEmail(set.getString(EMAIL));
                 user.setBlocked(set.getInt(BLOCK));
-                String date=set.getString(REGISRATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(REGISRATION_DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 user.setRegistrationDate(java.sql.Date.valueOf(date));
 
                 return user;
@@ -190,7 +192,7 @@ public class SQLUserDao implements UserDao {
             return true;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -212,7 +214,7 @@ public class SQLUserDao implements UserDao {
             if (set.next()) {
                 Long ID = set.getLong(MAX_USER_ID);
                 return ID;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException | ConnectionPoolException e) {

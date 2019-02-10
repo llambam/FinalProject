@@ -26,7 +26,7 @@ public class AddNewNumberCommand implements PagePath, CommandInterface {
     private static final AdressService SERVICE_ADRES = AdressServiceImpl.getInstance();
     private static final PhoneBookService SERVICE_PHONE_BOOK = PhoneBookServiceImpl.getInstance();
     private static final DaoFactory factory = DaoFactory.getDaoFactory();
-    private static final AdressDao adressDao= factory.getAdressDao();
+    private static final AdressDao adressDao = factory.getAdressDao();
     private static final DateInterface SERVICE_DATE = CurrentDate.getInstance();
 
 
@@ -92,7 +92,7 @@ public class AddNewNumberCommand implements PagePath, CommandInterface {
             Adress adress = new Adress();
 
             HttpSession session = request.getSession(true);
-            Long userID= (Long) session.getAttribute(USER_ID);
+            Long userID = (Long) session.getAttribute(USER_ID);
 
             adress.setUserID(userID);
             adress.setCity(city);
@@ -104,7 +104,7 @@ public class AddNewNumberCommand implements PagePath, CommandInterface {
 
             Long phoneBookid = SERVICE_ADRES.create(adress);
 
-            Date date=SERVICE_DATE.date();
+            Date date = SERVICE_DATE.date();
 
             PhoneBook phoneBook = new PhoneBook();
             phoneBook.setPhoneBookId(phoneBookid);
@@ -117,8 +117,8 @@ public class AddNewNumberCommand implements PagePath, CommandInterface {
             SERVICE_PHONE_BOOK.create(phoneBook);
 
 
-                page = ADD_NEW_NUMBER;
-                request.setAttribute(ACTION, REDIRECT_ACTION_ATTRIBUTE);
+            page = ADD_NEW_NUMBER;
+            request.setAttribute(ACTION, REDIRECT_ACTION_ATTRIBUTE);
 
         } catch (ValidationException e) {
             request.setAttribute(ERROR_FLAG, ERROR_FLAG_VALUE);

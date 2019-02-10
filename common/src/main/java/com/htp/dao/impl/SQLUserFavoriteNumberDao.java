@@ -12,13 +12,13 @@ import java.util.List;
 
 public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
 
-    private static final String USER_ID="user_id";
-    private static final String MAX_USER_ID= "max(user_id)";
-    private static final String PHONE_BOOK_ID="phone_book_id";
-    private static final String DATE="date";
+    private static final String USER_ID = "user_id";
+    private static final String MAX_USER_ID = "max(user_id)";
+    private static final String PHONE_BOOK_ID = "phone_book_id";
+    private static final String DATE = "date";
 
-    private static final int SUBSTRING_DATE_START_INFEX=0;
-    private static final int SUBSTRING_DATE_END_INFEX=10;
+    private static final int SUBSTRING_DATE_START_INFEX = 0;
+    private static final int SUBSTRING_DATE_END_INFEX = 10;
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String DELETE_BY_ID = "DELETE FROM user_favorite_number WHERE user_id = ?";
@@ -50,7 +50,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
 
             if (set.next()) {
                 UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber();
-                userFavoriteNumber.setUserID(set.getLong( USER_ID));
+                userFavoriteNumber.setUserID(set.getLong(USER_ID));
                 userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
                 userFavoriteNumber.setDate(Date.valueOf(set.getString(DATE)));
                 return userFavoriteNumber;
@@ -64,23 +64,23 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
 
     @Override
     public List<UserFavoriteNumber> findAll() throws DaoException {
-        try (Connection connect=pool.getConnection();
-             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)){
+        try (Connection connect = pool.getConnection();
+             PreparedStatement statement = connect.prepareStatement(SELECT_ALL_ID)) {
             ResultSet set = statement.executeQuery();
             List<UserFavoriteNumber> list = new ArrayList<>();
             while (set.next()) {
-                UserFavoriteNumber userFavoriteNumber= new UserFavoriteNumber();
-                userFavoriteNumber.setUserID(set.getLong( USER_ID));
+                UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber();
+                userFavoriteNumber.setUserID(set.getLong(USER_ID));
                 userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
 
-                String date=set.getString(DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 userFavoriteNumber.setDate(Date.valueOf(date));
                 list.add(userFavoriteNumber);
             }
             return list;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            throw new DaoException("", e);
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -93,9 +93,9 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
 
             if (set.next()) {
                 UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber();
-                userFavoriteNumber.setUserID(set.getLong( USER_ID));
+                userFavoriteNumber.setUserID(set.getLong(USER_ID));
                 userFavoriteNumber.setPhoneBookID(set.getLong(PHONE_BOOK_ID));
-                String date=set.getString(DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 userFavoriteNumber.setDate(Date.valueOf(date));
                 return userFavoriteNumber;
             } else {
@@ -114,7 +114,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
             return true;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -130,7 +130,7 @@ public class SQLUserFavoriteNumberDao implements UserFavoriteNumberDao {
             if (set.next()) {
                 Long ID = set.getLong(MAX_USER_ID);
                 return ID;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException | ConnectionPoolException e) {

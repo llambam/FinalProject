@@ -20,13 +20,14 @@ import java.util.List;
 public class AdminUserTableCommand implements PagePath, CommandInterface {
 
 
+    private static final String ACTION = "action";
+
+    private static final String FORWARD_ACTION_ATTRIBUTE = "forward";
+    private static final String USER_FOR_ADMIN_TABLE_LIST = "userForAdminTableList";
+
     public static CommandInterface getInstance() {
         return SingletonHolder.INSTANCE;
     }
-
-    private static final String ACTION = "action";
-    private static final String FORWARD_ACTION_ATTRIBUTE = "forward";
-    private static final String USER_FOR_ADMIN_TABLE_LIST = "userForAdminTableList";
 
 
     private static class SingletonHolder {
@@ -47,7 +48,7 @@ public class AdminUserTableCommand implements PagePath, CommandInterface {
             List<User> userList = userDao.findAll();
             List<UserRoles> userRoles = userRolesDao.findAll();
 
-            List<UserForAdminTable> userForAdminTableList=new LinkedList<>();
+            List<UserForAdminTable> userForAdminTableList = new LinkedList<>();
 
             for (User u : userList) {
 
@@ -62,8 +63,8 @@ public class AdminUserTableCommand implements PagePath, CommandInterface {
                 userForAdminTable.setBlocked(u.getBlocked());
                 userForAdminTable.setRegistrationDate(u.getRegistrationDate());
 
-                for (UserRoles us: userRoles){
-                    if(us.getUserId().equals(u.getUserId())){
+                for (UserRoles us : userRoles) {
+                    if (us.getUserId().equals(u.getUserId())) {
                         userForAdminTable.setRoleName(us.getRoleName());
                     }
                 }

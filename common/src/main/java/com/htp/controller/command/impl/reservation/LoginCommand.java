@@ -82,11 +82,10 @@ public class LoginCommand implements CommandInterface, PagePath {
             User user = SERVICE.authorization(tempUser);
             DaoFactory factory = DaoFactory.getDaoFactory();
 
-            Long sessionUserID=user.getUserId();
-            session.setAttribute(USER_ID,sessionUserID);
+            Long sessionUserID = user.getUserId();
+            session.setAttribute(USER_ID, sessionUserID);
             User userforBlockCheck = new User();
-            userforBlockCheck=factory.getUserDao().findById(sessionUserID);
-
+            userforBlockCheck = factory.getUserDao().findById(sessionUserID);
 
 
             if (user == null) {
@@ -94,7 +93,7 @@ public class LoginCommand implements CommandInterface, PagePath {
                 request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);//  одна из возможных реализаций отображений эррор мэссэджа у клиента
                 page = INDEX;
             } else {
-                if(userforBlockCheck.getBlocked()==0) {
+                if (userforBlockCheck.getBlocked() == 0) {
                     if (factory.getUserRolesDao().findById(user.getUserId()).getRoleName().equals(ADMIN)) {
                         session.setAttribute(ADMIN_ROLE, user);
                         page = ADMIN_USERS;
@@ -103,8 +102,8 @@ public class LoginCommand implements CommandInterface, PagePath {
                         session.setAttribute(CLIENT_ROLE, user);
                         page = MAIN_TABLE;
                     }
-                }else {
-                    page=BLOCKED;
+                } else {
+                    page = BLOCKED;
                 }
             }
             request.setAttribute(ACTION, REDIRECT_ACTION_ATTRIBUTE);

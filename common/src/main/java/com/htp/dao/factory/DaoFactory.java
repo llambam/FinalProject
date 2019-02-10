@@ -8,10 +8,14 @@ public abstract class DaoFactory {
     }
 
     public abstract UserDao getUserDao();
+
     public abstract PhoneBookDao getPhoneBookDao();
+
     public abstract UserFavoriteNumberDao getUserFavoriteNumberDao();
+
     public abstract UserRolesDao getUserRolesDao();
+
     public abstract AdressDao getAdressDao();
 
 
-    }
+}

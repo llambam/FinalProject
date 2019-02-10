@@ -14,11 +14,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <title>ADMIN PAGE #2</title>
 </head>
 <body>
+
+<button>
+    <a href="adm_users">Go to user list</a>
+</button>
 
 <form action="FrontController" method="post">
     <input type="hidden" name="command" value="logout">
@@ -27,61 +32,76 @@
 
 
 <form action="FrontController" method="post">
-    <input type="hidden" name="command" value="admin_user_table">
-    <input type="submit" value="View all users">
+    <input type="hidden" name="command" value="admin_phones_table">
+    <input type="submit" value="View all phones">
     <table class="table table-bordered">
 
         <thead>
         <tr>
-            <th scope="col">ID</th>
+            <th scope="col">ID телефона</th>
+            <th scope="col">ID пользователя</th>
             <th scope="col">Имя</th>
             <th scope="col">Фамилия</th>
-            <th scope="col">Логин</th>
             <th scope="col">Телефон</th>
             <th scope="col">e-mail</th>
-            <th scope="col">Блокировка</th>
-            <th scope="col">Дата регистрации</th>
-            <th scope="col">Тип пользователя</th>
-            <th scope="col">Блокировка</th>
+            <th scope="col">Город</th>
+            <th scope="col">Район</th>
+            <th scope="col">Улица</th>
+            <th scope="col">Дом</th>
+            <th scope="col">Этаж</th>
+            <th scope="col">Квартира</th>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Edit</th>
         </tr>
         </thead>
 
-        <c:forEach items="${userForAdminTableList}" var="userForAdminTable">
+        <c:forEach items="${bookForAdminLinkedList}" var="bookForAdminLinkedList">
 
             <tr>
                 <td>
-                    <p>${userForAdminTable.userId}</p>
+                    <p>${bookForAdminLinkedList.phoneBookId}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.userName}</p>
+                    <p>${bookForAdminLinkedList.userID}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.surname}</p>
+                    <p>${bookForAdminLinkedList.name}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.login}</p>
+                    <p>${bookForAdminLinkedList.surname}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.telephone}</p>
+                    <p>${bookForAdminLinkedList.telephone}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.email}</p>
+                    <p>${bookForAdminLinkedList.eMail}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.blocked}</p>
+                    <p>${bookForAdminLinkedList.city}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.registrationDate}</p>
+                    <p>${bookForAdminLinkedList.district}</p>
                 </td>
                 <td>
-                    <p>${userForAdminTable.roleName}</p>
+                    <p>${bookForAdminLinkedList.street}</p>
+                </td>
+                <td>
+                    <p>${bookForAdminLinkedList.houseNumber}</p>
+                </td>
+                <td>
+                    <p>${bookForAdminLinkedList.floor}</p>
+                </td>
+                <td>
+                    <p>${bookForAdminLinkedList.apartmentNumber}</p>
+                </td>
+                <td>
+                    <p>${bookForAdminLinkedList.creationDate}</p>
                 </td>
                 <td>
                     <form action="FrontController" method="post">
-                        <input type="hidden" name="userId" value="${userForAdminTable.userId}">
-                        <input type="hidden" name="command" value="block">
-                        <input type="hidden" name="command" value="admin_user_table">
-                        <input type="submit" value="Block">
+                        <input type="hidden" name="phoneBookId" value="${bookForAdminLinkedList.phoneBookId}">
+                        <input type="hidden" name="command" value="admin_go_to_edit_phones">
+                        <input type="submit" value="Edit">
                     </form>
                 </td>
             </tr>

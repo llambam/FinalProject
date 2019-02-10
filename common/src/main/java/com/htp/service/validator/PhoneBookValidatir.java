@@ -32,9 +32,9 @@ public class PhoneBookValidatir implements ValidatorInterface<PhoneBook> {
         eMailValid = entity.geteMail().matches(REGEX_EMAIL);
 //        dateValid = entity.getCreationDate().matches(REGEX_DATE_FORMAT);
 
-        if(nameValid==surnameValid==telephoneValid==eMailValid==true){
+        if (nameValid == surnameValid == telephoneValid == eMailValid == true) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

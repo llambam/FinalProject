@@ -17,7 +17,8 @@ public class AdministratorSecurityFilter implements Filter {
     private static final String INDEX_PAGE = "/index";
     private static final String RESULT_PAGE = "/result";
 
-    public void destroy() {}
+    public void destroy() {
+    }
 
     /**
      * The method takes two objects from the session: the client and administrator. If the client does not object,
@@ -25,10 +26,9 @@ public class AdministratorSecurityFilter implements Filter {
      * to the page, it will be redirected to the main page of the client.
      * If authentication as administrator of the request will be transmitted to the next filter in the filter chain.
      *
-     * @param req - ServletRequest
-     * @param resp - ServletResponse
+     * @param req   - ServletRequest
+     * @param resp  - ServletResponse
      * @param chain - FilterChain
-     *
      * @throws ServletException
      * @throws IOException
      */
@@ -46,11 +46,12 @@ public class AdministratorSecurityFilter implements Filter {
                 request.getRequestDispatcher(INDEX_PAGE).forward(request, response);
             }
         } else {
-            LOGGER.info("Client" + "client.getLogin()" +  " attempt to enter the admin page");
+            LOGGER.info("Client" + "client.getLogin()" + " attempt to enter the admin page");
             request.getRequestDispatcher(RESULT_PAGE).forward(request, response);
         }
         chain.doFilter(req, resp);
     }
 
-    public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 }

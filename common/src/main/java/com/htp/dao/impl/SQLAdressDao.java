@@ -94,7 +94,7 @@ public class SQLAdressDao implements AdressDao {
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -111,7 +111,7 @@ public class SQLAdressDao implements AdressDao {
             return true;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -136,7 +136,7 @@ public class SQLAdressDao implements AdressDao {
             if (set.next()) {
                 Long ID = set.getLong(MAX_PHONE_BOOK_ID);
                 return ID;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException | ConnectionPoolException e) {

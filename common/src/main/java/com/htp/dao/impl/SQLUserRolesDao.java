@@ -16,7 +16,7 @@ import java.util.List;
 public class SQLUserRolesDao implements UserRolesDao {
 
     private static final String USER_ID = "user_id";
-    private static final String MAX_USER_ID= "max(user_id)";
+    private static final String MAX_USER_ID = "max(user_id)";
     private static final String USER_ROLE = "role";
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
@@ -54,7 +54,7 @@ public class SQLUserRolesDao implements UserRolesDao {
             return list;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -85,8 +85,7 @@ public class SQLUserRolesDao implements UserRolesDao {
             statement.setLong(1, id);
             return true;
         } catch (SQLException | ConnectionPoolException e) {
-            e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -102,7 +101,7 @@ public class SQLUserRolesDao implements UserRolesDao {
             if (set.next()) {
                 Long ID = set.getLong(MAX_USER_ID);
                 return ID;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException | ConnectionPoolException e) {

@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = factory.getUserDao();
             if (VALIDATE_USER.isValid(entity) & VALIDATE_LOGIN.isValid(entity)) {
 //                if ( userDao.checkUserloginUQ(entity.getLogin()) == userDao.checkUserTelephoneUQ(entity.getTelephone())==true) {
-                    Long id = userDao.create(entity);
-                    return id;
+                Long id = userDao.create(entity);
+                return id;
 //                } else {
 //                    return null;
 //                }
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             }
         } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
     public User update(User entity) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
-            if (VALIDATE_USER.isValid(entity) == VALIDATE_LOGIN.isValid(entity)==true) {
-                if ( userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
+            if (VALIDATE_USER.isValid(entity) == VALIDATE_LOGIN.isValid(entity) == true) {
+                if (userDao.checkUserloginUQ(entity.getLogin()) & userDao.checkUserTelephoneUQ(entity.getTelephone())) {
                     Long id = userDao.update(entity);
                     return entity;
                 } else {
@@ -66,8 +66,7 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
         } catch (DaoException e) {
-            e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
 //                if (!check) {
 //                    return null;
 //                } else {
-                    return userDao.getUserNode(user.getLogin(), user.getPassword());
+                return userDao.getUserNode(user.getLogin(), user.getPassword());
 //                }
             } else {
                 throw new ValidationException("Validation Exception");
@@ -100,27 +99,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer block(Long userId) throws ServiceException {
-       try {
-           DaoFactory factory = DaoFactory.getDaoFactory();
-           UserDao userDao = factory.getUserDao();
-           User user = userDao.findById(userId);
+        try {
+            DaoFactory factory = DaoFactory.getDaoFactory();
+            UserDao userDao = factory.getUserDao();
+            User user = userDao.findById(userId);
 
-           int block = user.getBlocked();
-           if (block == 0) {
-               user.setBlocked(1);
-               userDao.update(user);
-           return 1;//возвращает новое(текущее) значение
-           }
-           if(block==1){
-               user.setBlocked(0);
-               userDao.update(user);
-               return 0;
-           }else {
-               return null;
-           }
-       }catch (DaoException e){
-           throw new ServiceException("Service Exception", e);
-       }
+            int block = user.getBlocked();
+            if (block == 0) {
+                user.setBlocked(1);
+                userDao.update(user);
+                return 1;//возвращает новое(текущее) значение
+            }
+            if (block == 1) {
+                user.setBlocked(0);
+                userDao.update(user);
+                return 0;
+            } else {
+                return null;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Service Exception", e);
+        }
     }
 
 

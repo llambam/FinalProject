@@ -20,7 +20,8 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
     public static UserFavoriteNumberService getInstance() {
         return SingletonHolder.instance;
     }
-    private static final ValidatorInterface<UserFavoriteNumber> VALIDATE= UserFavoriteNumberValidatir.getInstance();
+
+    private static final ValidatorInterface<UserFavoriteNumber> VALIDATE = UserFavoriteNumberValidatir.getInstance();
 
     private static class SingletonHolder {
 
@@ -30,22 +31,23 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
     @Override
     public Long create(UserFavoriteNumber entity) throws ServiceException {
         try {
-            UserFavoriteNumberDao userFavoriteNumberDao= factory.getUserFavoriteNumberDao();
+            UserFavoriteNumberDao userFavoriteNumberDao = factory.getUserFavoriteNumberDao();
             if (VALIDATE.isValid(entity)) {
                 Long id = userFavoriteNumberDao.create(entity);
                 return id;
             } else {
                 return null;
             }
-        } catch (DaoException|ConnectionPoolException  e) {
+        } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;}
+            throw new ServiceException("Service Exception", e);
+        }
     }
 
     @Override
     public UserFavoriteNumber update(UserFavoriteNumber entity) throws ServiceException {
         try {
-            UserFavoriteNumberDao userFavoriteNumberDao= factory.getUserFavoriteNumberDao();
+            UserFavoriteNumberDao userFavoriteNumberDao = factory.getUserFavoriteNumberDao();
             if (VALIDATE.isValid(entity)) {
                 Long id = userFavoriteNumberDao.update(entity);
                 return entity;
@@ -54,7 +56,7 @@ public class UserFavoriteNumberServiceImpl implements UserFavoriteNumberService 
             }
         } catch (DaoException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 }

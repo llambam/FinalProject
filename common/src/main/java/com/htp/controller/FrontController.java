@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /* Performs processing requests from browser and the responses to browser
-        */
+ */
 public class FrontController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -49,14 +49,13 @@ public class FrontController extends HttpServlet {
 
         CommandInterface action = helper.getCommand(request);
 
-        if(action != null) {
+        if (action != null) {
             try {
                 page = action.execute(request, response);
 
-                if((request.getAttribute(ACTION)).equals(REDIRECT_ATTRIBUTE)) {
+                if ((request.getAttribute(ACTION)).equals(REDIRECT_ATTRIBUTE)) {
                     response.sendRedirect(getServletContext().getContextPath() + page);
-                }
-                else {
+                } else {
                     RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                     if (dispatcher != null) {
                         dispatcher.forward(request, response);

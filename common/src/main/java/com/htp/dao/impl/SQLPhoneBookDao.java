@@ -19,8 +19,8 @@ public class SQLPhoneBookDao implements PhoneBookDao {
     private static final String EMAIL = "email";
     private static final String CREATION_DATE = "creation_date";
 
-    private static final int SUBSTRING_DATE_START_INFEX=0;
-    private static final int SUBSTRING_DATE_END_INFEX=10;
+    private static final int SUBSTRING_DATE_START_INFEX = 0;
+    private static final int SUBSTRING_DATE_END_INFEX = 10;
 
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final String SELECT_BY_ID = "SELECT * FROM phone_book WHERE phone_book_id = ?";
@@ -31,7 +31,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
     private static final String SELECT_BY_TELEPHONE = "SELECT * FROM phone_book WHERE telephone LIKE %?%";
     private static final String SELECT_BY_SURNAME = "SELECT * FROM phone_book WHERE surname LIKE %?%";
     private static final String SELECT_BY_TELEPHONE_AND_SURNAME = "SELECT * FROM phone_book WHERE surname =? telephone=?";
-    private static final String SELECT_BY_TELEPHONE_UQ= "SELECT * FROM phone_book WHERE telephone = ?";
+    private static final String SELECT_BY_TELEPHONE_UQ = "SELECT * FROM phone_book WHERE telephone = ?";
     private static final String SELECT_MAX_ID = "SELECT max(phone_book_id) FROM phone_book";
 
     public SQLPhoneBookDao() {
@@ -58,9 +58,10 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             }
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
+
     @Override
     public List<PhoneBook> getPhoneBookTelephone(int telephone) throws DaoException {
         try (Connection connect = pool.getConnection();
@@ -121,7 +122,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             }
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -139,14 +140,14 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
 
-                String date=set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 phoneBook.setCreationDate(Date.valueOf(date));
                 list.add(phoneBook);
             }
             return list;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new DaoException("Exception! ", e);
         }
 
     }
@@ -165,7 +166,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
                 phoneBook.setSurname(set.getString(SURNAME));
                 phoneBook.setTelephone(set.getString(TELEPHONE));
                 phoneBook.seteMail(set.getString(EMAIL));
-                String date=set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX,SUBSTRING_DATE_END_INFEX);
+                String date = set.getString(CREATION_DATE).substring(SUBSTRING_DATE_START_INFEX, SUBSTRING_DATE_END_INFEX);
                 phoneBook.setCreationDate(Date.valueOf(date));
                 return phoneBook;
             } else {
@@ -185,7 +186,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             return true;
         } catch (SQLException | ConnectionPoolException e) {
             e.printStackTrace();
-            return false;
+            throw new DaoException("Exception! ", e);
         }
     }
 
@@ -205,7 +206,7 @@ public class SQLPhoneBookDao implements PhoneBookDao {
             if (set.next()) {
                 Long ID = set.getLong(MAX_PHONE_BOOK_ID);
                 return ID;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException | ConnectionPoolException e) {

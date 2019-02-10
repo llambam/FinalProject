@@ -2,8 +2,6 @@ package com.htp.service.validator;
 
 import com.htp.domain.to.UserFavoriteNumber;
 
-import static com.htp.service.validator.ValidationRegEx.REGEX_DATE_FORMAT;
-
 public class UserFavoriteNumberValidatir implements ValidatorInterface<UserFavoriteNumber> {
 
 

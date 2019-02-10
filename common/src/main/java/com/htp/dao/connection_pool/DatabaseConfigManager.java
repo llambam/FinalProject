@@ -26,6 +26,6 @@ public class DatabaseConfigManager {
     }
 
     public String getProperty(String key) {
-        return (String)resourceBundle.getObject(key);
+        return (String) resourceBundle.getObject(key);
     }
 }

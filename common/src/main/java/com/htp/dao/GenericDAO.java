@@ -7,18 +7,19 @@ import java.util.List;
 
 /**
  * Basic Data Access Object interface with template parameters.
+ *
  * @param <T> generic type of objects passed to methods
  * @param <K> generic type of objects which will serve as a key
- * Provides CRUD operations with {@link T} objects.
- * */
-public interface GenericDAO <T, K> {
+ *            Provides CRUD operations with {@link T} objects.
+ */
+public interface GenericDAO<T, K> {
     /**
      * Method find all nodes from database
      *
      * @return List {@link T} all nodes in database
      * @throws DaoException
      */
-	List<T> findAll() throws DaoException, ConnectionPoolException;
+    List<T> findAll() throws DaoException, ConnectionPoolException;
 
     /**
      * Method find node from database by identification number
@@ -27,7 +28,7 @@ public interface GenericDAO <T, K> {
      * @return {@link T} - found record
      * @throws DaoException
      */
-	T findById(K id) throws DaoException;
+    T findById(K id) throws DaoException;
 
     /**
      * Method remove record in database by identification number
@@ -36,7 +37,7 @@ public interface GenericDAO <T, K> {
      * @return boolean value which defines state of transaction
      * @throws DaoException
      */
-	boolean delete(K id) throws DaoException;
+    boolean delete(K id) throws DaoException;
 
     /**
      * Method that create records in database
@@ -45,7 +46,7 @@ public interface GenericDAO <T, K> {
      * @return unique number created record
      * @throws DaoException
      */
-	Long create(T entity) throws DaoException, ConnectionPoolException;
+    Long create(T entity) throws DaoException, ConnectionPoolException;
 
     /**
      * Method update one of record in database with actually information
@@ -54,5 +55,5 @@ public interface GenericDAO <T, K> {
      * @return unique number updated record
      * @throws DaoException
      */
-	K update(T entity) throws DaoException;
+    K update(T entity) throws DaoException;
 }

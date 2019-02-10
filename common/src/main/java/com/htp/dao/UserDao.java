@@ -27,6 +27,8 @@ public interface UserDao extends GenericDAO<User, Long> {
      * @throws DaoException
      */
     boolean checkUser(String login, String password) throws DaoException;
+
     boolean checkUserloginUQ(String login) throws DaoException;
+
     boolean checkUserTelephoneUQ(String telephone) throws DaoException;
 }

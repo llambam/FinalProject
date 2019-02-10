@@ -13,7 +13,7 @@ import com.htp.service.validator.ValidatorInterface;
 public class AdressServiceImpl implements AdressService {
 
     private static final DaoFactory factory = DaoFactory.getDaoFactory();
-    private static final ValidatorInterface<Adress> VALIDATE= AdressValidator.getInstance();
+    private static final ValidatorInterface<Adress> VALIDATE = AdressValidator.getInstance();
 
     public AdressServiceImpl() {
     }
@@ -30,23 +30,23 @@ public class AdressServiceImpl implements AdressService {
     @Override
     public Long create(Adress entity) throws ServiceException {
         try {
-            AdressDao adressDao= factory.getAdressDao();
+            AdressDao adressDao = factory.getAdressDao();
             if (VALIDATE.isValid(entity)) {
-                Long ID=adressDao.create(entity);
+                Long ID = adressDao.create(entity);
                 return ID;
             } else {
                 return null;
             }
-        } catch (DaoException |ConnectionPoolException e) {
+        } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 
     @Override
     public Adress update(Adress entity) throws ServiceException {
         try {
-            AdressDao adressDao= factory.getAdressDao();
+            AdressDao adressDao = factory.getAdressDao();
             if (VALIDATE.isValid(entity)) {
                 Long id = adressDao.update(entity);
                 return entity;
@@ -55,7 +55,7 @@ public class AdressServiceImpl implements AdressService {
             }
         } catch (DaoException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 

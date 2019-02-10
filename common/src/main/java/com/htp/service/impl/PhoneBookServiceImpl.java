@@ -35,15 +35,15 @@ public class PhoneBookServiceImpl implements PhoneBookService {
                 if (phoneBookDao.checkUserTelephoneUQ(entity.getTelephone())) {
                     Long id = phoneBookDao.create(entity);
                     return id;
-                }else {
+                } else {
                     return null;
                 }
             } else {
                 return null;
             }
-        } catch (DaoException| ConnectionPoolException e) {
+        } catch (DaoException | ConnectionPoolException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 
@@ -55,7 +55,7 @@ public class PhoneBookServiceImpl implements PhoneBookService {
                 if (phoneBookDao.checkUserTelephoneUQ(entity.getTelephone())) {
                     Long id = phoneBookDao.update(entity);
                     return entity;
-                }else {
+                } else {
                     return null;
                 }
             } else {
@@ -63,7 +63,7 @@ public class PhoneBookServiceImpl implements PhoneBookService {
             }
         } catch (DaoException e) {
             e.printStackTrace();
-            return null;
+            throw new ServiceException("Service Exception", e);
         }
     }
 }

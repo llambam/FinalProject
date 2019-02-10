@@ -2,12 +2,6 @@ package com.htp.service.validator;
 
 import com.htp.domain.to.User;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.htp.service.validator.ValidationRegEx.REGEX_LOGIN;
-import static com.htp.service.validator.ValidationRegEx.REGEX_PASSWORD;
-
 
 public class LoginValidator implements ValidatorInterface<User> {
 
@@ -19,9 +13,6 @@ public class LoginValidator implements ValidatorInterface<User> {
     public static ValidatorInterface<User> getInstance() {
         return instance;
     }
-
-
-
 
 
     /* Validates fields of parameter object for correct values.

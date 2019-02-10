@@ -17,7 +17,7 @@ public class UserRolesValidator implements ValidatorInterface<UserRoles> {
 
     @Override
     public boolean isValid(UserRoles entity) {
-        if (entity.getRoleName().equals(ADMIN)|| entity.getRoleName().equals(USER) || entity.getRoleName().equals(GUEST)) {
+        if (entity.getRoleName().equals(ADMIN) || entity.getRoleName().equals(USER) || entity.getRoleName().equals(GUEST)) {
             return true;
         } else {
             return false;

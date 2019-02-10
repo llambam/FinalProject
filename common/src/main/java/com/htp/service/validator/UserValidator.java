@@ -36,7 +36,7 @@ public class UserValidator implements ValidatorInterface<User> {
         block = entity.getBlocked() == 0 | entity.getBlocked() == 1;
 //        dateValid = entity.getRegistrationDate().matches(REGEX_DATE_FORMAT);
 
-        if (nameValid == surnameValid == telephoneValid == eMailValid == block  == true) {
+        if (nameValid == surnameValid == telephoneValid == eMailValid == block == true) {
             return true;
         } else {
             return false;

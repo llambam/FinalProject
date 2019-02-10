@@ -9,7 +9,9 @@ import java.util.List;
 public interface PhoneBookDao extends GenericDAO<PhoneBook, Long> {
 
     List<PhoneBook> getPhoneBookTelephone(int telephone) throws DaoException, ConnectionPoolException;
+
     List<PhoneBook> getPhoneBookSurname(String surname) throws DaoException, ConnectionPoolException;
+
     /**
      * Method check user node in database by login and password transfers parameters
      *
@@ -19,5 +21,6 @@ public interface PhoneBookDao extends GenericDAO<PhoneBook, Long> {
      * @throws DaoException
      */
     boolean checkPhoneBook(String surname, int telephone) throws DaoException;
+
     boolean checkUserTelephoneUQ(String telephone) throws DaoException;
 }

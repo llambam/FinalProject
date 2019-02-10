@@ -109,4 +109,28 @@
         <url-pattern>/adm_users</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Admin_user_edit</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/admin_edit_user.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin_user_edit</servlet-name>
+        <url-pattern>/adm_user_edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Admin_phones_edit</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/admin_edit_phones.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin_phones_edit</servlet-name>
+        <url-pattern>/adm_phones_edit</url-pattern>
+    </servlet-mapping>
+
+
+    <!--Filters -->
+
+
+
+
 </web-app>

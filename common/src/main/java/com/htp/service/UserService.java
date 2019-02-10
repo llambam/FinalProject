@@ -3,7 +3,7 @@ package com.htp.service;
 import com.htp.domain.to.User;
 import com.htp.exception.ServiceException;
 
-public interface UserService extends GenericServiceInterface <User, Long> {
+public interface UserService extends GenericServiceInterface<User, Long> {
 
     /**
      * Method provides operation for login user
@@ -14,9 +14,7 @@ public interface UserService extends GenericServiceInterface <User, Long> {
      */
     User authorization(User user) throws ServiceException;
 
-    Integer block (Long userId) throws ServiceException;
-
-
+    Integer block(Long userId) throws ServiceException;
 
 
 }

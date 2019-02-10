@@ -8,9 +8,10 @@ public class SQLDaoFactory extends DaoFactory {
 
     private static final SQLDaoFactory instance = new SQLDaoFactory();
 
-    private SQLDaoFactory(){}
+    private SQLDaoFactory() {
+    }
 
-    public static SQLDaoFactory getInstance(){
+    public static SQLDaoFactory getInstance() {
         return instance;
     }
 
@@ -38,7 +39,6 @@ public class SQLDaoFactory extends DaoFactory {
     public AdressDao getAdressDao() {
         return SQLAdressDao.getInstance();
     }
-
 
 
 }

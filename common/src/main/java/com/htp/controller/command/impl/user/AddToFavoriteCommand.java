@@ -40,11 +40,10 @@ public class AddToFavoriteCommand implements PagePath, CommandInterface {
         try {
             Long phoneBookId = Long.valueOf(request.getParameter(PHONE_BOOK_ID));
             HttpSession session = request.getSession(true);
-            Long userID= (Long) session.getAttribute(USER_ID);
-            Date date=SERVICE_DATE.date();
-            UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber(userID,phoneBookId,date);
+            Long userID = (Long) session.getAttribute(USER_ID);
+            Date date = SERVICE_DATE.date();
+            UserFavoriteNumber userFavoriteNumber = new UserFavoriteNumber(userID, phoneBookId, date);
             SERVICE_FAVORITE_NUMBER.create(userFavoriteNumber);
-
 
 
         } catch (ServiceException e) {

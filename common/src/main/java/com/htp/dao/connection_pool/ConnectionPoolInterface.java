@@ -3,7 +3,7 @@ package com.htp.dao.connection_pool;
 import java.sql.Connection;
 
 /* Provides a common interface to work with pool of connections.
-        */
+ */
 public interface ConnectionPoolInterface {
     /* Initialize pool with necessary properties from file.
      * @throws ConnectionPoolException
