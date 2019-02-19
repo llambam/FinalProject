@@ -83,6 +83,7 @@ public class SQLUserRolesDao implements UserRolesDao {
         try (Connection connect = pool.getConnection();
              PreparedStatement statement = connect.prepareStatement(DELETE_BY_ID)) {
             statement.setLong(1, id);
+            statement.executeUpdate();
             return true;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception! ", e);

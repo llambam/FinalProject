@@ -115,21 +115,21 @@
     </table>
 </form>
 
-<form action="FrontController" method="post">
-    <input type="hidden" name="command" value="block">
-    <input type="submit" value="Block user">
-</form>
+<%--<form action="FrontController" method="post">--%>
+    <%--<input type="hidden" name="command" value="block">--%>
+    <%--<input type="submit" value="Block user">--%>
+<%--</form>--%>
 
 
-<form action="FrontController" method="post">
-    <input type="hidden" name="command" value="change_status">
-    <input type="submit" value="Change status">
-</form>
+<%--<form action="FrontController" method="post">--%>
+    <%--<input type="hidden" name="command" value="change_status">--%>
+    <%--<input type="submit" value="Change status">--%>
+<%--</form>--%>
 
-<form action="FrontController">
-    <input type="hidden" name="command" value="delete_user">
-    <input type="submit" value="Delete user">
-</form>
+<%--<form action="FrontController">--%>
+    <%--<input type="hidden" name="command" value="delete_user">--%>
+    <%--<input type="submit" value="Delete user">--%>
+<%--</form>--%>
 
 
 </body>

@@ -14,8 +14,7 @@ import com.htp.exception.DaoException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class AdminPhoneTableCommand implements PagePath, CommandInterface {
 
@@ -63,15 +62,16 @@ public class AdminPhoneTableCommand implements PagePath, CommandInterface {
 
                 for (PhoneBook us : phoneBookList) {
 
-                    phoneBookForAdmin.setName(us.getName());
-                    phoneBookForAdmin.setSurname(us.getSurname());
-                    phoneBookForAdmin.setTelephone(us.getTelephone());
-                    phoneBookForAdmin.seteMail(us.geteMail());
-                    phoneBookForAdmin.setCreationDate(us.getCreationDate());
+                    if (u.getPhoneBookID().equals(us.getPhoneBookId())) {
+                        phoneBookForAdmin.setName(us.getName());
+                        phoneBookForAdmin.setSurname(us.getSurname());
+                        phoneBookForAdmin.setTelephone(us.getTelephone());
+                        phoneBookForAdmin.seteMail(us.geteMail());
+                        phoneBookForAdmin.setCreationDate(us.getCreationDate());
 
+                    }
                 }
                 bookForAdminLinkedList.add(phoneBookForAdmin);
-
             }
 
             request.setAttribute(BOOK_FOR_ADMIN_LIST, bookForAdminLinkedList);

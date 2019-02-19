@@ -35,8 +35,8 @@ public class AdminDeleteUserCommand implements PagePath, CommandInterface {
         try {
             HttpSession session = request.getSession(true);
             Long userId = (Long) session.getAttribute(USER_ID_FOR_ADMIN);
-            factory.getUserDao().delete(userId);
             factory.getUserRolesDao().delete(userId);
+            factory.getUserDao().delete(userId);
 
             request.setAttribute(ACTION, FORWARD_ACTION_ATTRIBUTE);
         } catch (DaoException e) {
